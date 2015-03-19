@@ -14,14 +14,13 @@
           vConf = unit.injectVars(['configuration']);
         });
 
-        it('isnt undefined', function() {
+        it('is defined and has defaults', function() {
           expect(vConf.configuration).not.to.equal(undefined);
-        });
-        it('has defaults', function() {
           expect(vConf.configuration.nBack).to.equal(2);
         });
       });
     });
+
     describe('directives', function() {
       describe('screen', function() {
         it('exists and gets transformed', function() {

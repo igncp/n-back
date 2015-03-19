@@ -25,6 +25,7 @@ unit.injectVars = function(services) {
       });
     };
 
+  module('templates');
   inject(injectionFunction);
 
   return varsObj;

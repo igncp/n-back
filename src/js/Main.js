@@ -11,7 +11,7 @@
     return {
       restrict: 'E',
       replace: true,
-      template: '<div id="screen"></div>'
+      templateUrl: 'directives/screen.html'
     };
   });
 })();
