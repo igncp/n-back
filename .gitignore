@@ -1,4 +1,5 @@
 node_modules
 tests/reports
 src/vendors
+src/es5
 *.log

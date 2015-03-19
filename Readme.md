@@ -3,4 +3,4 @@
 A memory-training application.
 
 ## Development
-This application is developed following a 'testing-first' mindset.
+This application is developed using ES6 JavaScript (with the Babel transpiler), following a 'testing-first' mindset.

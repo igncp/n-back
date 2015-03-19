@@ -1,17 +1,26 @@
 (function() {
-  var Main = angular.module('Main', []);
+  var Main = angular.module("Main", []);
 
-  Main.factory('configuration', function() {
+  Main.factory("configuration", function() {
     return {
-      nBack: 2
+      nBack: 2,
+      sessionTime: 120
     };
   });
 
-  Main.directive('screen', function() {
+  Main.factory("screenService", function() {
     return {
-      restrict: 'E',
+      link: function() {
+      }
+    };
+  });
+
+  Main.directive("screen", function(screenService) {
+    return {
+      restrict: "E",
       replace: true,
-      templateUrl: 'directives/screen.html'
+      templateUrl: "directives/screen.html",
+      link: screenService.link
     };
   });
 })();

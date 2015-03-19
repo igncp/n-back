@@ -13,14 +13,21 @@
   "license": "ISC",
   "dependencies": {
     "chai": "^2.1.2",
+    "grunt": "^0.4.5",
+    "grunt-babel": "^4.0.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-http-server": "^1.2.0",
     "http-server": "^0.8.0",
     "karma": "^0.12.31",
+    "karma-babel-preprocessor": "^4.0.1",
     "karma-chai": "^0.1.0",
     "karma-cli": "0.0.4",
     "karma-coverage": "^0.2.7",
     "karma-mocha": "^0.1.10",
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "^0.1.4",
-    "mocha": "^2.2.1"
+    "karma-sinon": "^1.0.4",
+    "mocha": "^2.2.1",
+    "sinon": "^1.14.1"
   }
 }

@@ -2,10 +2,13 @@ all: set-executables
 	@echo "Done."
 
 set-executables:
-	@chmod -R +x src/bin tests/bin
+	@chmod -R +x tests/bin
 
 server:
-	@./src/bin/run_server.sh
+	@grunt server
+
+babel:
+	@grunt
 
 test: test-unit
 
