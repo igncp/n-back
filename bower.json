@@ -1,0 +1,19 @@
+{
+  "name": "n-back",
+  "version": "0.0.0",
+  "authors": [
+    "Ignacio Carbajo <icarbajop@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./src/vendors",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.15",
+    "angular-mocks": "~1.3.15"
+  }
+}

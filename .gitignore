@@ -1,0 +1,4 @@
+node_modules
+tests/reports
+src/vendors
+*.log

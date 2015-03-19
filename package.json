@@ -1,0 +1,26 @@
+{
+  "name": "n-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^2.1.2",
+    "http-server": "^0.8.0",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-cli": "0.0.4",
+    "karma-coverage": "^0.2.7",
+    "karma-mocha": "^0.1.10",
+    "karma-ng-html2js-preprocessor": "^0.1.2",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "mocha": "^2.2.1"
+  }
+}
