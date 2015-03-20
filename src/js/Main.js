@@ -8,9 +8,10 @@
     };
   });
 
-  Main.factory("screenService", function() {
+  Main.factory("screenService", function(configuration) {
     return {
       link: function() {
+        console.log("configuration", configuration);
       }
     };
   });

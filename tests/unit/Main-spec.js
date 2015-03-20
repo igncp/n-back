@@ -31,7 +31,7 @@
           expect(html).not.to.equal('<screen class="ng-scope"></screen>');
         });
 
-        it('uses screenService as link function', function() {
+        it('uses screenService.link as link function', function() {
           let wrapper = unit.injectVars(['screenService']),
             spy = sinon.spy(),
             html;
