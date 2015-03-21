@@ -7,7 +7,7 @@ reports = root + 'tests/reports/'
 vendors = src + 'vendors/'
 app = src + 'js/'
 appFiles = app + '**/*.js'
-testsFiles = './*-spec.js'
+testsFiles = './**/*-spec.js'
 directives = src + 'directives/*.html'
 
 config =
@@ -16,7 +16,7 @@ config =
   files: [
     vendors + 'angular/angular.min.js'
     vendors + 'angular-mocks/angular-mocks.js'
-    './common_unit.js'
+    './**/common_*.js'
     directives
     app + './Main.js'
     testsFiles

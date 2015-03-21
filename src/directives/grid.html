@@ -1,0 +1,9 @@
+<div id="grid">
+    <table>
+        <tr ng-repeat="cellsRow in gridData.data.cells">
+            <td ng-repeat="cell in cellsRow track by $index">
+                {{cell}}
+            </td>
+        </tr>
+    </table>
+</div>

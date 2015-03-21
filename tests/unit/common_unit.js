@@ -1,15 +1,17 @@
 /* global chai: false, inject: false */
 
-var unit;
-
 window.expect = chai.expect;
 
 /**
  * window.unit is a namespace for common helpers in the unit tests scope
  */
 
-window.unit = unit = {};
+window.unit = window.unit || {};
+var unit = window.unit;
 
+unit.noop = function() {};
+
+unit.gridMarkup = '<grid></grid>';
 
 /**
  * Injects all the passed services into a returned object
@@ -30,18 +32,41 @@ unit.injectVars = function(services) {
   return varsObj;
 };
 
-unit.compile = function(html) {
-  var wrapper, compilation;
+unit.getCompileElement = function(html) {
+  var wrapper, compilationElement;
 
   wrapper = unit.injectVars(['$compile', '$rootScope']);
-  compilation = wrapper.$compile(html)(wrapper.$rootScope);
+  compilationElement = wrapper.$compile(html)(wrapper.$rootScope);
   wrapper.$rootScope.$digest();
 
-  return compilation;
+  return compilationElement;
 };
 
 unit.getCompileHTML = function(html) {
-  var element = unit.compile(html);
+  var element = unit.getCompileElement(html);
 
   return element[0].outerHTML;
+};
+
+unit.mockWindowSetInterval = function(mockCb, intervalId) {
+  return unit.mockWindowFn('setInterval', function(cb) {
+    if (mockCb) {
+      mockCb();
+    } else if (cb) {
+      cb();
+    }
+    return intervalId || 0;
+  });
+};
+
+unit.mockWindowFn = function(fnName, mockFn) {
+  var nativeFn = window[fnName];
+
+  mockFn = mockFn ? mockFn : unit.noop;
+
+  window[fnName] = mockFn;
+
+  return function() {
+    window[fnName] = nativeFn;
+  };
 };
