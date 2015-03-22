@@ -11,13 +11,13 @@
     });
 
     it("has required properties", function() {
-      expect(gridData.data.size).to.equal(configurationGrid.size);
-      expect(gridData.data.figure).to.equal(configurationGrid.figure);
+      expect(gridData.size).to.equal(configurationGrid.size);
+      expect(gridData.figure).to.equal(configurationGrid.figure);
     });
     
     it("has NxN cells", function() {
-      expect(gridData.data.cells.length).to.equal(configurationGrid.size);
-      expect(gridData.data.cells[0].length).to.equal(configurationGrid.size);
+      expect(gridData.cells.length).to.equal(configurationGrid.size);
+      expect(gridData.cells[0].length).to.equal(configurationGrid.size);
     });
   });
 })();

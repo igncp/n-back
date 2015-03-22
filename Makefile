@@ -14,3 +14,6 @@ test: test-unit
 
 test-unit:
 	@./tests/bin/test_unit.sh
+
+test-unit-watch:
+	@./tests/bin/test_unit_watch.sh

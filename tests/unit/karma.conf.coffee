@@ -10,13 +10,18 @@ appFiles = app + '**/*.js'
 testsFiles = './**/*-spec.js'
 directives = src + 'directives/*.html'
 
+singleRun = if process.env.NBACK_UNIT_TESTS_WATCH is 'true' then false else true
+
 config =
   basePath: ''
-  frameworks: ['mocha', 'chai', 'sinon']
+  frameworks: ['mocha', 'chai-sinon']
   files: [
     vendors + 'angular/angular.min.js'
     vendors + 'angular-mocks/angular-mocks.js'
-    './**/common_*.js'
+    './common/common_*.js'
+    './common/*/common_*.js'
+    './*/common_*.js'
+    './*/*/common_*.js'
     directives
     app + './Main.js'
     testsFiles
@@ -38,11 +43,10 @@ config =
   colors: true
   autoWatch: true
   browsers: ['PhantomJS']
-  singleRun: false
+  singleRun: singleRun
   plugins: [
     'karma-mocha'
-    'karma-sinon'
-    'karma-chai'
+    'karma-chai-sinon'
     'karma-coverage'
     'karma-phantomjs-launcher'
     'karma-ng-html2js-preprocessor'

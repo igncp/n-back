@@ -21,6 +21,7 @@
     "karma": "^0.12.31",
     "karma-babel-preprocessor": "^4.0.1",
     "karma-chai": "^0.1.0",
+    "karma-chai-sinon": "^0.1.4",
     "karma-cli": "0.0.4",
     "karma-coverage": "^0.2.7",
     "karma-mocha": "^0.1.10",
@@ -28,6 +29,7 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-sinon": "^1.0.4",
     "mocha": "^2.2.1",
-    "sinon": "^1.14.1"
+    "sinon": "^1.14.1",
+    "sinon-chai": "^2.7.0"
   }
 }

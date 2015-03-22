@@ -2,7 +2,7 @@
   var Main = angular.module("Main", []);
 
   Main.controller('Main', function() {
-    
+
   });
 
   Main.factory("configuration", function() {
@@ -16,26 +16,22 @@
     };
   });
 
-  Main.factory("gridFactory", function(GridData) {
-    return {
-      link: function(scope) {
-        scope.gridData = new GridData();
-      }
-    };
-  });
+  Main.service("ClockService", function(configuration) {
+    let tickEvent = document.createEvent('Event');
+    tickEvent.initEvent('clockTick', true, true);
 
-  Main.service("clockService", function(configuration) {
     class Clock {
-      constructor(intervalFn) {
-        this.currentTime = 0;
-        this.finalTime = configuration.sessionTime;
-        this.intervalFn = intervalFn;
+      constructor(elementAttachedTo) {
+        let clock = this;
+        clock.currentTime = 0;
+        clock.finalTime = configuration.sessionTime;
+        clock.elementAttachedTo = elementAttachedTo;
       }
       start() {
         let clock = this;
         clock.intervalId = setInterval(function() {
           clock.currentTime += 1;
-          if (clock.intervalFn) clock.intervalFn(clock);
+          clock.elementAttachedTo.dispatchEvent(tickEvent);
           if (clock.currentTime === clock.finalTime) {
             clock.stop();
           }
@@ -50,28 +46,26 @@
       }
     }
 
-    return new Clock(configuration.intervalFn);
+    return Clock;
   });
 
   Main.service('GridData', function(configuration) {
     class GridData {
       constructor() {
         let gridData = this;
-        gridData.data = {
-          size: configuration.grid.size,
-          figure: configuration.grid.figure
-        };
+        gridData.size = configuration.grid.size;
+        gridData.figure = configuration.grid.figure;
         gridData.generateNullCells();
       }
       generateNullCells() {
         let gridData = this,
-          size = gridData.data.size;
-        gridData.data.cells = [];
+          size = gridData.size;
 
+        gridData.cells = [];
         for (var i = size - 1; i >= 0; i--) {
-          gridData.data.cells[i] = [];
+          gridData.cells[i] = [];
           for (var j = size - 1; j >= 0; j--) {
-            gridData.data.cells[i][j] = null;
+            gridData.cells[i][j] = null;
           }
         }
       }
@@ -80,13 +74,69 @@
     return GridData;
   });
 
-  Main.directive("grid", function(gridFactory) {
+  Main.directive("grid", function(GridData) {
     return {
       restrict: "E",
       replace: true,
       scope: {},
       templateUrl: "directives/grid.html",
-      link: gridFactory.link
+      link: function(scope) {
+        class Grid {
+          constructor() {
+            let grid = this;
+            grid.data = new GridData();
+            
+            scope.$on('grid', function(event, broadcastedData) {
+              grid[broadcastedData[0]](broadcastedData);
+            });
+          }
+          start() {
+            return null;
+          }
+        }
+
+        scope.grid = new Grid();
+      }
+    };
+  });
+
+  Main.directive("gamePanel", function(configuration, ClockService) {
+    return {
+      restrict: "E",
+      replace: true,
+      scope: {},
+      templateUrl: "directives/gamePanel.html",
+      link: {
+        post: function(scope, panelEl) {
+          class GamePanel {
+            constructor() {
+              let panel = this;
+
+              panel.configuration = configuration;
+              panel.clock = new ClockService(panelEl);
+            }
+            start() {
+              let panel = this;
+              scope.$broadcast('grid', ['start']);
+              panel.clock.start();
+              panelEl.bind('clockTick', function() {
+                return null;
+              });
+              panelEl.bind('clockStop', function() {
+                return null;
+              });
+            }
+            stop() {
+              let panel = this;
+              
+              scope.$broadcast('grid', ['stop']);
+              panel.clock.stop();
+            }
+          }
+
+          scope.gamePanel = new GamePanel();
+        }
+      }
     };
   });
 })();

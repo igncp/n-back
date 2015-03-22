@@ -1,6 +1,6 @@
 <div id="grid">
     <table>
-        <tr ng-repeat="cellsRow in gridData.data.cells">
+        <tr ng-repeat="cellsRow in grid.data.cells">
             <td ng-repeat="cell in cellsRow track by $index">
                 {{cell}}
             </td>
