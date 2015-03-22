@@ -1,5 +1,4 @@
-# n-back
-[![Build Status](https://travis-ci.org/igncp/n-back.svg)](https://travis-ci.org/igncp/n-back)
+# n-back [![Build Status](https://travis-ci.org/igncp/n-back.svg)](https://travis-ci.org/igncp/n-back)
 
 A memory-training application.
 
