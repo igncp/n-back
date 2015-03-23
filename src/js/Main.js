@@ -1,17 +1,42 @@
 (function() {
-  var Main = angular.module("Main", []);
+  var Helpers = angular.module('Helpers', []);
 
-  Main.controller('Main', function() {
-
+  Helpers.factory('Helpers', function() {
+    return {};
   });
 
-  Main.factory("configuration", function() {
-    return {
+  var Main = angular.module("Main", ['Helpers']);
+
+  Main.controller('Main', function() {});
+
+  (function() {
+    let originalFigures = {
+      letters: ['A', 'B', 'C', 'D'],
+      colors: ['#CCC', '#F00', '#0F0', '#00F']
+    };
+    Main.constant('originalFigures', originalFigures);
+    Main.value('configuration', {
       nBack: 2,
       sessionTime: 120,
+      figures: angular.copy(originalFigures),
+      currentFigures: ['letters'],
       grid: {
-        size: 3,
-        figures: 'letters'
+        size: 3
+      }
+    });
+  })();
+
+  Main.service('MainHelpers', function() {
+    return {
+      getNxNNullCells: function(size) {
+        let cells = [];
+        for (var i = size - 1; i >= 0; i--) {
+          cells[i] = [];
+          for (var j = size - 1; j >= 0; j--) {
+            cells[i][j] = null;
+          }
+        }
+        return cells;
       }
     };
   });
@@ -49,32 +74,39 @@
     return Clock;
   });
 
-  Main.service('GridData', function(configuration) {
-    class GridData {
+  Main.service('gameData', function(MainHelpers, configuration) {
+    class GameData {
       constructor() {
-        let gridData = this;
-        gridData.size = configuration.grid.size;
-        gridData.figure = configuration.grid.figure;
-        gridData.generateNullCells();
+        let gameData = this;
+        gameData.size = configuration.grid.size;
+        gameData.figure = configuration.grid.figure;
+        gameData.historyOfStates = {};
       }
-      generateNullCells() {
-        let gridData = this,
-          size = gridData.size;
+      createNewState() {
+        let gameData = this,
+          figures,
+          randomFigures = configuration.currentFigures.map(function(figureType) {
+            figures = configuration.figures[figureType];
+            return figures[Math.floor(Math.random() * figures.length)];
+          }),
+          randomRow = Math.floor(Math.random() * gameData.size),
+          randomColumn = Math.floor(Math.random() * gameData.size),
+          state;
 
-        gridData.cells = [];
-        for (var i = size - 1; i >= 0; i--) {
-          gridData.cells[i] = [];
-          for (var j = size - 1; j >= 0; j--) {
-            gridData.cells[i][j] = null;
-          }
-        }
+        state = {
+          figures: randomFigures,
+          row: randomRow,
+          column: randomColumn
+        };
+
+        return state;
       }
     }
 
-    return GridData;
+    return new GameData();
   });
 
-  Main.directive("grid", function(GridData) {
+  Main.directive("grid", function(MainHelpers, gameData) {
     return {
       restrict: "E",
       replace: true,
@@ -84,11 +116,18 @@
         class Grid {
           constructor() {
             let grid = this;
-            grid.data = new GridData();
-            
+            grid.data = gameData;
+            grid.generateNullCells();
+
             scope.$on('grid', function(event, broadcastedData) {
               grid[broadcastedData[0]](broadcastedData);
             });
+          }
+          generateNullCells() {
+            let grid = this,
+              size = grid.data.size;
+
+            grid.cells = MainHelpers.getNxNNullCells(size);
           }
           start() {
             return null;
@@ -120,15 +159,18 @@
               scope.$broadcast('grid', ['start']);
               panel.clock.start();
               panelEl.bind('clockTick', function() {
-                return null;
+                panel.clockTick();
               });
               panelEl.bind('clockStop', function() {
-                return null;
+                panel.stop();
               });
+            }
+            clockTick() {
+              scope.$broadcast('grid', ['clockTick']);
             }
             stop() {
               let panel = this;
-              
+
               scope.$broadcast('grid', ['stop']);
               panel.clock.stop();
             }

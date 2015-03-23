@@ -37,6 +37,8 @@
           expect(panelScope.$broadcast).to.have.been.calledWith('grid', ['start']);
           gamePanelInstance.stop();
           expect(panelScope.$broadcast).to.have.been.calledWith('grid', ['stop']);
+          gamePanelInstance.clockTick();
+          expect(panelScope.$broadcast).to.have.been.calledWith('grid', ['clockTick']);
         });
       });
 

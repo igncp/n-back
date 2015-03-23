@@ -15,9 +15,15 @@
   unit.describe = function(text, fn) {
     describe('> ' + text, fn);
   };
-  
+
   unit.it = function(text, fn) {
     it('... it ' + text, fn);
+  };
+
+  unit.expectObjectHasExactKeys = function(obj, keys) {
+    var objKeys = Object.keys(obj);
+
+    expect(objKeys).to.have.members(keys);
   };
 
   /**
