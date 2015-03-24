@@ -1,4 +1,5 @@
 ignoreme.txt
+.sass-cache
 node_modules
 tests/reports
 src/vendors
