@@ -1,13 +1,20 @@
 module.exports = (grunt) ->
   config =
     watch: # For devel
-      displayDevel:
+      js:
         options:
           atBegin: true
         files: [
           'src/js/**/*.js'
         ]
         tasks: ['babel']
+      sass:
+        options:
+          atBegin: true
+        files: [
+          'src/sass/**/*.scss'
+        ]
+        tasks: ['sass']
 
     'http-server':
       dev:
@@ -16,6 +23,7 @@ module.exports = (grunt) ->
         cache: 0
         ext: 'html'
         runInBackground: false
+    
     babel:
       options:
         sourceMap: true
@@ -24,15 +32,28 @@ module.exports = (grunt) ->
           expand: true
           cwd: 'src/js/'
           src: ['**/*.js']
-          dest: 'src/es5/'
+          dest: 'src/compiled/js'
           ext: '.js'
         ]
+    
+    sass:
+      dist:
+        options:
+          style: 'compact'
+        files: [{
+          expand: true
+          cwd: 'src/sass'
+          src: ['**/*.scss']
+          dest: 'src/compiled/css',
+          ext: '.css'
+        }]
 
   grunt.initConfig config
 
   grunt.loadNpmTasks 'grunt-http-server'
   grunt.loadNpmTasks 'grunt-babel'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-sass'
 
   grunt.registerTask 'default', ['watch']
   grunt.registerTask 'server', ['http-server']

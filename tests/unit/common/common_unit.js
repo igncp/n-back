@@ -26,6 +26,14 @@
     expect(objKeys).to.have.members(keys);
   };
 
+  unit.expectObjectToLackAllOfTheseKeys = function(obj, keys) {
+    var objKeys = Object.keys(obj);
+
+    keys.forEach(function(key) {
+      expect(objKeys).not.to.include(key);
+    });
+  };
+
   /**
    * Injects all the passed services into a returned object
    * @param  {Array} vars Array of the services strings

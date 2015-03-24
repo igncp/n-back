@@ -1,5 +1,6 @@
+ignoreme.txt
 node_modules
 tests/reports
 src/vendors
-src/es5
+src/compiled
 *.log

@@ -18,6 +18,7 @@
     Main.value('configuration', {
       nBack: 2,
       sessionTime: 120,
+      stateTime: 1000,
       figures: angular.copy(originalFigures),
       currentFigures: ['letters'],
       grid: {
@@ -48,19 +49,24 @@
     class Clock {
       constructor(elementAttachedTo) {
         let clock = this;
-        clock.currentTime = 0;
-        clock.finalTime = configuration.sessionTime;
+
         clock.elementAttachedTo = elementAttachedTo;
       }
       start() {
         let clock = this;
+
+        if (clock.started === true) clock.stop();
+
+        clock.finalTime = configuration.sessionTime;
+        clock.currentTime = 0;
+        clock.started = true;
         clock.intervalId = setInterval(function() {
           clock.currentTime += 1;
           clock.elementAttachedTo.dispatchEvent(tickEvent);
           if (clock.currentTime === clock.finalTime) {
             clock.stop();
           }
-        }, 1000);
+        }, configuration.sessionTime);
       }
       stop() {
         let clock = this;
@@ -68,6 +74,7 @@
           clearInterval(clock.intervalId);
         }
         clock.currentTime = 0;
+        clock.started = false;
       }
     }
 
@@ -78,9 +85,8 @@
     class GameData {
       constructor() {
         let gameData = this;
-        gameData.size = configuration.grid.size;
-        gameData.figure = configuration.grid.figure;
-        gameData.historyOfStates = {};
+        gameData.historyOfStates = [];
+        gameData.sessionStatesNumber = Math.ceil(configuration.sessionTime / (configuration.stateTime / 1000));
       }
       createNewState() {
         let gameData = this,
@@ -101,12 +107,25 @@
 
         return state;
       }
+      clearHistoryOfStates() {
+        let gameData = this;
+        gameData.historyOfStates = [];
+      }
+      generateANewHistoryOfStates() {
+        let gameData = this,
+          newState;
+        gameData.clearHistoryOfStates();
+        for (var i = gameData.sessionStatesNumber - 1; i >= 0; i--) {
+          newState = gameData.createNewState();
+          gameData.historyOfStates.push(newState);
+        }
+      }
     }
 
     return new GameData();
   });
 
-  Main.directive("grid", function(MainHelpers, gameData) {
+  Main.directive("grid", function(MainHelpers, gameData, configuration) {
     return {
       restrict: "E",
       replace: true,
@@ -120,16 +139,20 @@
             grid.generateNullCells();
 
             scope.$on('grid', function(event, broadcastedData) {
-              grid[broadcastedData[0]](broadcastedData);
+              let command = broadcastedData.shift(0);
+              grid[command](broadcastedData);
             });
           }
           generateNullCells() {
             let grid = this,
-              size = grid.data.size;
+              size = configuration.grid.size;
 
             grid.cells = MainHelpers.getNxNNullCells(size);
           }
           start() {
+            return null;
+          }
+          refreshState() {
             return null;
           }
         }
@@ -152,21 +175,21 @@
               let panel = this;
 
               panel.configuration = configuration;
-              panel.clock = new ClockService(panelEl);
+              panel.clock = new ClockService(panelEl[0]);
             }
             start() {
               let panel = this;
               scope.$broadcast('grid', ['start']);
               panel.clock.start();
-              panelEl.bind('clockTick', function() {
-                panel.clockTick();
+              panelEl.bind('clockTick', function(data) {
+                panel.clockTick(data);
               });
               panelEl.bind('clockStop', function() {
                 panel.stop();
               });
             }
-            clockTick() {
-              scope.$broadcast('grid', ['clockTick']);
+            clockTick(data) {
+              scope.$broadcast('grid', ['refreshState', data]);
             }
             stop() {
               let panel = this;

@@ -34,11 +34,11 @@
 
         unit.it("broadcasts the expected events when started / stopped", function() {
           gamePanelInstance.start();
-          expect(panelScope.$broadcast).to.have.been.calledWith('grid', ['start']);
+          expect(panelScope.$broadcast).to.have.been.calledWith('grid');
           gamePanelInstance.stop();
-          expect(panelScope.$broadcast).to.have.been.calledWith('grid', ['stop']);
+          expect(panelScope.$broadcast).to.have.been.calledWith('grid');
           gamePanelInstance.clockTick();
-          expect(panelScope.$broadcast).to.have.been.calledWith('grid', ['clockTick']);
+          expect(panelScope.$broadcast).to.have.been.calledWith('grid');
         });
       });
 

@@ -1,7 +1,8 @@
 (function() {
-  var unit = window.unit;
+  var unit = window.unit,
+    services = unit.Main.services;
 
-  unit.Main.services.testsWrapper('gameData', function() {
+  services.testsWrapper('gameData', function() {
     let gameData, configuration, originalFigures;
     beforeEach(function() {
       let wrapper = unit.injectVars(['gameData', 'originalFigures', 'configuration']);
@@ -11,18 +12,32 @@
     });
 
     unit.it("has required properties", function() {
-      expect(gameData.size).to.equal(configuration.grid.size);
-      expect(gameData.figure).to.equal(configuration.grid.figure);
+      expect(gameData.historyOfStates).to.be.an('array');
     });
 
     unit.it("can create a new state with the expected structure", function() {
       let state = gameData.createNewState();
 
-      unit.expectObjectHasExactKeys(state, ['figures', 'column', 'row']);
-      expect(state.figures).to.be.an('array');
-      expect(state.figures.length).to.equal(configuration.currentFigures.length);
-      expect(state.column).to.be.a('number');
-      expect(state.row).to.be.a('number');
+      services.assertThatStateHasTheExpectedStructure(state, configuration);
     });
+
+    unit.describe('clearHistoryOfStates', function() {
+      unit.it("clears historyOfStates", function() {
+        gameData.historyOfStates = ['foo', 'bar'];
+        gameData.clearHistoryOfStates();
+        expect(gameData.historyOfStates).to.eql([]);
+      });
+    });
+
+    unit.describe('generateANewHistoryOfStates', function() {
+      unit.it("fills historyOfStates with well structured states", function() {
+        gameData.generateANewHistoryOfStates();
+        expect(gameData.historyOfStates.length).to.equal(gameData.sessionStatesNumber);
+        if (gameData.historyOfStates.length > 0) {
+          services.assertThatStateHasTheExpectedStructure(gameData.historyOfStates[0], configuration);
+        }
+      });
+    });
+
   });
 })();

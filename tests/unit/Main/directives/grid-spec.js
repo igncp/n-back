@@ -20,7 +20,7 @@
 
     unit.it("Generates nxn (n=size) cells", function() {
       let cellsNumber = gridElement.find('td').length,
-        gridSize = grid.data.size;
+        gridSize = configurationGrid.size;
 
       expect(gridSize * gridSize).to.equal(cellsNumber);
     });

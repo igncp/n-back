@@ -4,13 +4,21 @@
 <head>
     <title>N-Back</title>
     <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
-    <script type="text/javascript" src="es5/Main.js"></script>
+    <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap-theme.min.css">
+    
+    <script type="text/javascript" src="compiled/js/Main.js"></script>
+    <link rel="stylesheet" type="text/css" href="compiled/css/styles.css">
 </head>
 
 <body ng-app="Main">
-    <h1>N-Back</h1>
-    <div ng-controller="Main">
-        <grid></grid>
+    <div class="col-lg-offset-1 col-lg-10">
+        <h1>N-Back</h1>
+        <div ng-controller="Main">
+            <game-panel></game-panel>
+        </div>
     </div>
 </body>
 

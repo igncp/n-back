@@ -18,6 +18,8 @@ config =
   files: [
     vendors + 'angular/angular.min.js'
     vendors + 'angular-mocks/angular-mocks.js'
+    vendors + 'jquery/dist/jquery.min.js'
+    vendors + 'bootstrap/dist/js/bootstrap.min.js'
     './common/common_*.js'
     './common/*/common_*.js'
     './*/common_*.js'
