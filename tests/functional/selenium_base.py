@@ -10,8 +10,7 @@ class SeleniumBase:
     self.base_url = 'http://localhost:7171'
 
   def close_browser(self):
-    # self.d.close()
-    pass
+    self.d.close()
 
   def go_to(self, relative_url):
     self.d.get(self.base_url + relative_url)
