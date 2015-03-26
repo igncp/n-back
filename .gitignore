@@ -2,6 +2,8 @@ ignoreme.txt
 .sass-cache
 node_modules
 tests/reports
+tests/screenshots
 src/vendors
 src/compiled
 *.log
+*.pyc

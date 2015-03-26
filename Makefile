@@ -10,10 +10,13 @@ server:
 babel:
 	@grunt
 
-test: test-unit
+test: test-unit test-functional
 
 test-unit:
-	@./tests/bin/test_unit.sh
+	@sh ./tests/bin/test_unit.sh
 
 test-unit-watch:
 	@./tests/bin/test_unit_watch.sh
+
+test-functional:
+	@sh ./tests/bin/test_functional.sh
