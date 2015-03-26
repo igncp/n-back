@@ -13,9 +13,4 @@ install:
   - sudo npm install
   - bower install
 
-before_script:
-  - sleep 3
-  - 'grunt server'
-  - sleep 3
-
 script: 'make test'
