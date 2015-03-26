@@ -6,11 +6,16 @@ install:
   # Python test requirements
   - pip install -r tests/functional/requirements.txt
   # JavaScript test requirements
-  - sudo add-apt-repository -y ppa:chris-lea/node.js
-  - sudo apt-get -y update
-  - sudo apt-get -y install nodejs
-  - sudo npm install -g grunt-cli bower
-  - sudo npm install
-  - sudo bower install
+  - add-apt-repository -y ppa:chris-lea/node.js
+  - apt-get -y update
+  - apt-get -y install nodejs
+  - npm install -g grunt-cli bower
+  - npm install
+  - bower install
+
+before_script:
+  - sleep 3
+  - 'grunt server'
+  - sleep 3
 
 script: 'make test'
