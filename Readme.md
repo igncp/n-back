@@ -6,7 +6,7 @@ A memory-training application.
 This application is developed using ES6 JavaScript (with the Babel transpiler), following a TDD workflow.
 
 ## Tests
-The plan is to develop unit and acceptance tests, as expressive, flexible and DRYed as possible.
+The plan is to develop unit and acceptance (using Selenium with Python) tests, as expressive, flexible and DRYed as possible.
 
 ## License
 MIT
