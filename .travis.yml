@@ -13,4 +13,7 @@ install:
   - sudo npm install
   - bower install
 
+before_script:
+  - 'grunt compile'
+
 script: 'make test'

@@ -19,4 +19,4 @@ class NBackCommon(unittest.TestCase, selenium_base.SeleniumBase):
       self.start_server()
 
   def start_server(self):
-      subprocess.Popen(['grunt', 'server'])
+    subprocess.Popen(['grunt', 'server'])
