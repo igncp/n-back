@@ -12,7 +12,9 @@
     expect(state.figures).to.be.an('array');
     expect(state.figures.length).to.equal(configuration.currentFigures.length);
     expect(state.column).to.be.a('number');
+    unit.expectVariableToDifferNaN(state.column);
     expect(state.row).to.be.a('number');
+    unit.expectVariableToDifferNaN(state.row);
   };
 
 })();

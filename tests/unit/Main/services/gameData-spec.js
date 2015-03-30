@@ -13,6 +13,7 @@
 
     unit.it("has required properties", function() {
       expect(gameData.historyOfStates).to.be.an('array');
+      expect(gameData.currentStateIndex).to.be.a('number');
     });
 
     unit.it("can create a new state with the expected structure", function() {
@@ -36,6 +37,18 @@
         if (gameData.historyOfStates.length > 0) {
           services.assertThatStateHasTheExpectedStructure(gameData.historyOfStates[0], configuration);
         }
+      });
+    });
+
+    unit.describe("getNextState", function() {
+      unit.it("returns the next state", function() {
+        let state;
+
+        expect(gameData.currentStateIndex).to.equal(0);
+        gameData.generateANewHistoryOfStates();
+        state = gameData.getNextState();
+        services.assertThatStateHasTheExpectedStructure(state, configuration);
+        expect(gameData.currentStateIndex).to.equal(1);
       });
     });
 

@@ -30,5 +30,14 @@
       gridScope.$broadcast('grid', ['foo']);
       expect(grid.foo).to.have.been.called;
     });
+
+    unit.describe("fillCellsWithState", function() {
+      unit.it("sets the right cells with the right values", function() {
+        let state = unit.fixtures.state;
+
+        grid.fillCellsWithState(state);
+        expect(grid.cells).to.eql(unit.fixtures.stateCells);
+      });
+    });
   });
 })();

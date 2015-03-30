@@ -11,6 +11,7 @@
   var unit = window.unit;
 
   unit.noop = function() {};
+  unit.fixtures = window.fixtures;
 
   unit.describe = function(text, fn) {
     describe('> ' + text, fn);
@@ -32,6 +33,10 @@
     keys.forEach(function(key) {
       expect(objKeys).not.to.include(key);
     });
+  };
+
+  unit.expectVariableToDifferNaN = function(variable) {
+    expect(isNaN(variable)).to.equal(false);
   };
 
   /**

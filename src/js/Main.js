@@ -86,17 +86,18 @@
       constructor() {
         let gameData = this;
         gameData.historyOfStates = [];
+        gameData.currentStateIndex = 0;
         gameData.sessionStatesNumber = Math.ceil(configuration.sessionTime / (configuration.stateTime / 1000));
       }
+
       createNewState() {
-        let gameData = this,
-          figures,
+        let figures,
           randomFigures = configuration.currentFigures.map(function(figureType) {
             figures = configuration.figures[figureType];
             return figures[Math.floor(Math.random() * figures.length)];
           }),
-          randomRow = Math.floor(Math.random() * gameData.size),
-          randomColumn = Math.floor(Math.random() * gameData.size),
+          randomRow = Math.floor(Math.random() * configuration.grid.size),
+          randomColumn = Math.floor(Math.random() * configuration.grid.size),
           state;
 
         state = {
@@ -107,10 +108,12 @@
 
         return state;
       }
+
       clearHistoryOfStates() {
         let gameData = this;
         gameData.historyOfStates = [];
       }
+
       generateANewHistoryOfStates() {
         let gameData = this,
           newState;
@@ -120,17 +123,27 @@
           gameData.historyOfStates.push(newState);
         }
       }
+
+      getNextState() {
+        let gameData = this;
+        gameData.currentStateIndex += 1;
+        if (gameData.currentStateIndex < gameData.historyOfStates.length - 1) {
+          return gameData.historyOfStates[gameData.currentStateIndex];
+        } else {
+          return null;
+        }
+      }
     }
 
     return new GameData();
   });
 
-  Main.directive("grid", function(MainHelpers, gameData, configuration) {
+  Main.directive('grid', function(MainHelpers, gameData, configuration) {
     return {
-      restrict: "E",
+      restrict: 'E',
       replace: true,
       scope: {},
-      templateUrl: "directives/grid.html",
+      templateUrl: 'directives/grid.html',
       link: function(scope) {
         class Grid {
           constructor() {
@@ -150,10 +163,25 @@
             grid.cells = MainHelpers.getNxNNullCells(size);
           }
           start() {
-            return null;
+            gameData.generateANewHistoryOfStates();
           }
           refreshState() {
-            return null;
+            let grid = this;
+            grid.setNextState();
+          }
+          stop() {
+            gameData.clearHistoryOfStates();
+          }
+          setNextState() {
+            let grid = this,
+              state = gameData.getNextState();
+
+            grid.fillCellsWithState(state);
+          }
+          fillCellsWithState(state) {
+            let grid = this;
+            grid.generateNullCells();
+            grid.cells[state.row][state.column] = state.figures[0];
           }
         }
 

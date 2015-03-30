@@ -1,9 +1,11 @@
-<div id="grid">
+<div class="grid">
     <table>
-        <tr ng-repeat="cellsRow in grid.cells">
-            <td ng-repeat="cell in cellsRow track by $index">
-                {{cell}}
-            </td>
-        </tr>
+        <tbody>
+            <tr ng-repeat="cellsRow in grid.cells">
+                <td ng-repeat="cell in cellsRow track by $index" class="grid-cell">
+                    {{cell}}
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>

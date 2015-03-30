@@ -1,5 +1,19 @@
 $light-grey: #EEEEEE;
+$dark-grey: #CCCCCC;
+$light-black: #777777;
+$grid-side: 100px;
 
 body {
   background-color: $light-grey;
+}
+
+.grid {
+  margin: 50px;
+
+  .grid-cell {
+    background-color: $dark-grey;
+    border: solid 1px $light-black;
+    height: $grid-side;
+    width: $grid-side;
+  }
 }

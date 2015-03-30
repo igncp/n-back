@@ -9,6 +9,7 @@ app = src + 'js/'
 appFiles = app + '**/*.js'
 testsFiles = './**/*-spec.js'
 directives = src + 'directives/*.html'
+fixturesDir = '../fixtures/'
 
 singleRun = if process.env.NBACK_UNIT_TESTS_WATCH is 'true' then false else true
 
@@ -20,6 +21,7 @@ config =
     vendors + 'angular-mocks/angular-mocks.js'
     vendors + 'jquery/dist/jquery.min.js'
     vendors + 'bootstrap/dist/js/bootstrap.min.js'
+    fixturesDir + '*.js'
     './common/common_*.js'
     './common/*/common_*.js'
     './*/common_*.js'
