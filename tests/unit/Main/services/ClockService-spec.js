@@ -2,11 +2,12 @@
   var unit = window.unit;
 
   unit.Main.services.testsWrapper('ClockService', function() {
-    let clock, configuration, ClockService;
+    let clock, configuration, ClockService, gridElement;
     beforeEach(function() {
+      gridElement = unit.directives.getCompileElementFromTagName('grid');
       let wrapper = unit.injectVars(['configuration', 'ClockService']);
       ClockService = wrapper.ClockService;
-      clock = new wrapper.ClockService();
+      clock = new wrapper.ClockService(gridElement);
       configuration = wrapper.configuration;
     });
 
@@ -23,6 +24,11 @@
     });
 
     unit.describe("start()", function() {
+      let $rootScope;
+      beforeEach(function() {
+        $rootScope = unit.injectVars(['$rootScope']).$rootScope;
+      });
+
       unit.it("uses setInterval and stores it in intervalId", function() {
         let spy = sinon.spy(),
           fakeIntervalId = 1234,
@@ -41,6 +47,14 @@
         expect(clock.finalTime).to.equal(configuration.sessionTime);
         expect(clock.currentTime).to.equal(0);
         expect(clock.started).to.equal(true);
+      });
+
+      unit.it("uses $rootScope.$apply inside this asynchronous fn", function() {
+        let restoreNativeSetInterval = unit.mockWindowSetInterval();
+        $rootScope.$apply = sinon.spy();
+        
+        unit.expectSpyIsCalledAfterFnAndNotBefore($rootScope.$apply, clock.start.bind(clock));
+        restoreNativeSetInterval();
       });
     });
 

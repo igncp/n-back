@@ -39,6 +39,12 @@
     expect(isNaN(variable)).to.equal(false);
   };
 
+  unit.expectSpyIsCalledAfterFnAndNotBefore = function(spy, fn) {
+    expect(spy).not.to.have.been.called;
+    fn();
+    expect(spy).to.have.been.called;
+  };
+
   /**
    * Injects all the passed services into a returned object
    * @param  {Array} vars Array of the services strings

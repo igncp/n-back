@@ -44,11 +44,11 @@
       unit.it("returns the next state", function() {
         let state;
 
-        expect(gameData.currentStateIndex).to.equal(0);
+        expect(gameData.currentStateIndex).to.equal(-1);
         gameData.generateANewHistoryOfStates();
         state = gameData.getNextState();
         services.assertThatStateHasTheExpectedStructure(state, configuration);
-        expect(gameData.currentStateIndex).to.equal(1);
+        expect(gameData.currentStateIndex).to.equal(0);
       });
     });
 

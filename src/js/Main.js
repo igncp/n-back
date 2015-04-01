@@ -42,7 +42,7 @@
     };
   });
 
-  Main.service("ClockService", function(configuration) {
+  Main.service("ClockService", function($rootScope, configuration) {
     let tickEvent = document.createEvent('Event');
     tickEvent.initEvent('clockTick', true, true);
 
@@ -61,12 +61,22 @@
         clock.currentTime = 0;
         clock.started = true;
         clock.intervalId = setInterval(function() {
-          clock.currentTime += 1;
+          $rootScope.$apply(function() {
+            clock.currentTime += 1;
+            clock.dispatchEventToElementAttached();
+            if (clock.currentTime === clock.finalTime) {
+              clock.stop();
+            }
+          });
+        }, configuration.stateTime);
+      }
+      dispatchEventToElementAttached() {
+        let clock = this;
+        if (clock.elementAttachedTo[0]) {
+          clock.elementAttachedTo[0].dispatchEvent(tickEvent);
+        } else {
           clock.elementAttachedTo.dispatchEvent(tickEvent);
-          if (clock.currentTime === clock.finalTime) {
-            clock.stop();
-          }
-        }, configuration.sessionTime);
+        }
       }
       stop() {
         let clock = this;
@@ -86,7 +96,7 @@
       constructor() {
         let gameData = this;
         gameData.historyOfStates = [];
-        gameData.currentStateIndex = 0;
+        gameData.currentStateIndex = -1;
         gameData.sessionStatesNumber = Math.ceil(configuration.sessionTime / (configuration.stateTime / 1000));
       }
 
