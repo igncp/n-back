@@ -18,7 +18,7 @@
     Main.value('configuration', {
       nBack: 2,
       sessionTime: 120,
-      stateTime: 1000,
+      stateTime: 2000,
       figures: angular.copy(originalFigures),
       currentFigures: ['letters'],
       grid: {
@@ -155,9 +155,11 @@
       scope: {},
       templateUrl: 'directives/grid.html',
       link: function(scope) {
+        let grid;
+
         class Grid {
           constructor() {
-            let grid = this;
+            grid = this;
             grid.data = gameData;
             grid.generateNullCells();
 
@@ -167,8 +169,7 @@
             });
           }
           generateNullCells() {
-            let grid = this,
-              size = configuration.grid.size;
+            let size = configuration.grid.size;
 
             grid.cells = MainHelpers.getNxNNullCells(size);
           }
@@ -176,20 +177,18 @@
             gameData.generateANewHistoryOfStates();
           }
           refreshState() {
-            let grid = this;
             grid.setNextState();
           }
           stop() {
             gameData.clearHistoryOfStates();
+            grid.generateNullCells();
           }
           setNextState() {
-            let grid = this,
-              state = gameData.getNextState();
+            let state = gameData.getNextState();
 
             grid.fillCellsWithState(state);
           }
           fillCellsWithState(state) {
-            let grid = this;
             grid.generateNullCells();
             grid.cells[state.row][state.column] = state.figures[0];
           }
