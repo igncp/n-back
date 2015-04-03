@@ -35,14 +35,37 @@
     });
   };
 
-  unit.expectVariableToDifferNaN = function(variable) {
+  unit.expectVariabvaroDifferNaN = function(variable) {
     expect(isNaN(variable)).to.equal(false);
   };
 
-  unit.expectSpyIsCalledAfterFnAndNotBefore = function(spy, fn) {
+  unit.expectSpyIsCalledAfterFnAndNotBefore = function(spy, fn, context) {
     expect(spy).not.to.have.been.called;
-    fn();
+
+    if (context) fn.call(context);
+    else fn();
+
     expect(spy).to.have.been.called;
+  };
+
+  unit.expectMatrixIsSquareAndOfSize = function(matrix, size) {
+    expect(matrix.length).is.equal(size);
+    angular.forEach(matrix, function(row) {
+      expect(row.length).is.equal(size);
+    });
+  };
+
+  unit.expectMatrixIsSquareAndOfSizeAndWithValue = function(matrix, size, value) {
+    unit.expectMatrixIsSquareAndOfSize(matrix, size);
+    angular.forEach(matrix, function(row) {
+      angular.forEach(row, function(cell) {
+        expect(cell).to.equal(value);
+      });
+    });
+  };
+
+  unit.expectArraysHaveTheSameLength = function(arr1, arr2) {
+    expect(arr1).to.have.length(arr2.length);
   };
 
   /**

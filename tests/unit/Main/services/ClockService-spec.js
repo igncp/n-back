@@ -2,10 +2,10 @@
   var unit = window.unit;
 
   unit.Main.services.testsWrapper('ClockService', function() {
-    let clock, configuration, ClockService, gridElement;
+    var clock, configuration, ClockService, gridElement;
     beforeEach(function() {
       gridElement = unit.directives.getCompileElementFromTagName('grid');
-      let wrapper = unit.injectVars(['configuration', 'ClockService']);
+      var wrapper = unit.injectVars(['configuration', 'ClockService']);
       ClockService = wrapper.ClockService;
       clock = new wrapper.ClockService(gridElement);
       configuration = wrapper.configuration;
@@ -13,7 +13,7 @@
 
     unit.describe("stop()", function() {
       unit.it("clears the clock currentTime", function() {
-        let restoreNativeClearInterval = unit.mockWindowFn('clearInterval');
+        var restoreNativeClearInterval = unit.mockWindowFn('clearInterval');
 
         clock.currentTime = 100;
         clock.stop();
@@ -24,13 +24,13 @@
     });
 
     unit.describe("start()", function() {
-      let $rootScope;
+      var $rootScope;
       beforeEach(function() {
         $rootScope = unit.injectVars(['$rootScope']).$rootScope;
       });
 
       unit.it("uses setInterval and stores it in intervalId", function() {
-        let spy = sinon.spy(),
+        var spy = sinon.spy(),
           fakeIntervalId = 1234,
           restoreNativeSetInterval = unit.mockWindowSetInterval(spy, fakeIntervalId);
 
@@ -50,7 +50,7 @@
       });
 
       unit.it("uses $rootScope.$apply inside this asynchronous fn", function() {
-        let restoreNativeSetInterval = unit.mockWindowSetInterval();
+        var restoreNativeSetInterval = unit.mockWindowSetInterval();
         $rootScope.$apply = sinon.spy();
         
         unit.expectSpyIsCalledAfterFnAndNotBefore($rootScope.$apply, clock.start.bind(clock));
@@ -59,7 +59,7 @@
     });
 
     describe('clockTick interval', function() {
-      let dummyElement, clockAttachedToElement;
+      var dummyElement, clockAttachedToElement;
       beforeEach(function() {
         dummyElement = document.createElement('a');
         clockAttachedToElement = new ClockService(dummyElement);
@@ -68,7 +68,7 @@
       unit.beforeEachMockMockableFnAndRestoreAfter(unit.mockWindowSetIntervalCallingOwnCb);
 
       it("emits the clockTick event", function() {
-        let spy = sinon.spy();
+        var spy = sinon.spy();
 
         dummyElement.addEventListener('clockTick', spy);
         clockAttachedToElement.start();

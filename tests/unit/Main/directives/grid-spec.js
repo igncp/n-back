@@ -3,7 +3,7 @@
     directives = unit.directives;
 
   unit.Main.directives.testsWrapper('grid', function() {
-    let gridElement, gridScope, configurationGrid, grid;
+    var gridElement, gridScope, configurationGrid, grid;
     beforeEach(function() {
       configurationGrid = unit.injectVars(['configuration']).configuration.grid;
       gridElement = directives.getCompileElementFromTagName('grid');
@@ -25,12 +25,11 @@
         
         unit.describe("constructor()", function() {
           unit.it("has a NxN cells variable", function() {
-            expect(grid.cells.length).to.equal(configurationGrid.size);
-            expect(grid.cells[0].length).to.equal(configurationGrid.size);
+            unit.expectMatrixIsSquareAndOfSize(grid.cells, configurationGrid.size);
           });
 
-          unit.it("generates nxn (n=size) cells", function() {
-            let cellsNumber = gridElement.find('td').length,
+          unit.it("generates NxN (N=size) cells", function() {
+            var cellsNumber = gridElement.find('td').length,
               gridSize = configurationGrid.size;
 
             expect(gridSize * gridSize).to.equal(cellsNumber);

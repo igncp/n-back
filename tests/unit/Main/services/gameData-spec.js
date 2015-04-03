@@ -3,9 +3,9 @@
     services = unit.Main.services;
 
   services.testsWrapper('gameData', function() {
-    let gameData, configuration, originalFigures;
+    var gameData, configuration, originalFigures;
     beforeEach(function() {
-      let wrapper = unit.injectVars(['gameData', 'originalFigures', 'configuration']);
+      var wrapper = unit.injectVars(['gameData', 'originalFigures', 'configuration']);
       gameData = wrapper.gameData;
       originalFigures = wrapper.originalFigures;
       configuration = wrapper.configuration;
@@ -17,7 +17,7 @@
     });
 
     unit.it("can create a new state with the expected structure", function() {
-      let state = gameData.createNewState();
+      var state = gameData.createNewState();
 
       services.assertThatStateHasTheExpectedStructure(state, configuration);
     });
@@ -42,7 +42,7 @@
 
     unit.describe("getNextState", function() {
       unit.it("returns the next state", function() {
-        let state;
+        var state;
 
         expect(gameData.currentStateIndex).to.equal(-1);
         gameData.generateANewHistoryOfStates();

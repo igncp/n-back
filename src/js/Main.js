@@ -38,6 +38,12 @@
           }
         }
         return cells;
+      },
+      callMethodOnReceivedMessage: function(message, scope, obj) {
+        scope.$on(message, function(event, broadcastedData) {
+          let command = broadcastedData.shift(0);
+          obj[command](broadcastedData[0]);
+        });
       }
     };
   });
@@ -163,10 +169,7 @@
             grid.data = gameData;
             grid.generateNullCells();
 
-            scope.$on('grid', function(event, broadcastedData) {
-              let command = broadcastedData.shift(0);
-              grid[command](broadcastedData);
-            });
+            MainHelpers.callMethodOnReceivedMessage('grid', scope, grid);
           }
           generateNullCells() {
             let size = configuration.grid.size;
@@ -207,16 +210,18 @@
       templateUrl: "directives/gamePanel.html",
       link: {
         post: function(scope, panelEl) {
+          let panel;
+
           class GamePanel {
             constructor() {
-              let panel = this;
+              panel = this;
 
               panel.configuration = configuration;
               panel.clock = new ClockService(panelEl[0]);
             }
             start() {
-              let panel = this;
               scope.$broadcast('grid', ['start']);
+              scope.$broadcast('figuresButtons', ['generate']);
               panel.clock.start();
               panelEl.bind('clockTick', function(data) {
                 panel.clockTick(data);
@@ -229,9 +234,8 @@
               scope.$broadcast('grid', ['refreshState', data]);
             }
             stop() {
-              let panel = this;
-
               scope.$broadcast('grid', ['stop']);
+              scope.$broadcast('figuresButtons', ['unset']);
               panel.clock.stop();
             }
           }
@@ -241,4 +245,47 @@
       }
     };
   });
+
+  Main.directive("figuresButtons", function(MainHelpers, configuration) {
+    return {
+      restrict: "E",
+      replace: true,
+      scope: {},
+      templateUrl: "directives/figuresButtons.html",
+      link: {
+        post: function(scope) {
+          let figuresButtons;
+
+          class FiguresButtons {
+            getDefaultButton(figure) {
+              return {
+                type: figure
+              };
+            }
+            constructor() {
+              figuresButtons = this;
+              figuresButtons.unset();
+              MainHelpers.callMethodOnReceivedMessage('figuresButtons', scope, figuresButtons);
+            }
+            generate() {
+              figuresButtons.generated = true;
+              figuresButtons.buttons = [];
+              angular.forEach(configuration.currentFigures, function(currentFigure) {
+                let button = figuresButtons.getDefaultButton(currentFigure);
+                figuresButtons.buttons.push(button);
+              });
+            }
+            unset() {
+              figuresButtons.generated = false;
+              figuresButtons.buttons = null;
+            }
+          }
+
+          scope.figuresButtons = new FiguresButtons();
+        }
+      }
+    };
+  });
+
+
 })();

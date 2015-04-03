@@ -3,7 +3,7 @@
     testsWrapper = unit.defaultTestWrapper(unit.Main.testsWrapper, 'values');
 
   testsWrapper('configuration', function() {
-    let configuration, originalFigures;
+    var configuration, originalFigures;
     beforeEach(function() {
       var wrapper = unit.injectVars(['configuration', 'originalFigures']);
       configuration = wrapper.configuration;

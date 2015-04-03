@@ -58,7 +58,6 @@ config =
   ]
 
 config.preprocessors[appFiles] = ['babel', 'coverage']
-config.preprocessors[testsFiles] = ['babel']
 config.preprocessors[directives] = ['ng-html2js']
 
 module.exports = (cfg)->
