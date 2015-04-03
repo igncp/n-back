@@ -35,7 +35,7 @@
     });
   };
 
-  unit.expectVariabvaroDifferNaN = function(variable) {
+  unit.expectVariableToDifferNaN = function(variable) {
     expect(isNaN(variable)).to.equal(false);
   };
 
