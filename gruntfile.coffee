@@ -14,7 +14,7 @@ module.exports = (grunt) ->
         files: [
           'src/sass/**/*.scss'
         ]
-        tasks: ['sass']
+        tasks: ['compass']
 
     'http-server':
       dev:
@@ -36,25 +36,19 @@ module.exports = (grunt) ->
           ext: '.js'
         ]
     
-    sass:
+    compass:
       dist:
         options:
-          style: 'compact'
-        files: [{
-          expand: true
-          cwd: 'src/sass'
-          src: ['**/*.scss']
-          dest: 'src/compiled/css',
-          ext: '.css'
-        }]
+          cssDir: 'src/compiled/css'
+          sassDir: 'src/sass'
 
   grunt.initConfig config
 
   grunt.loadNpmTasks 'grunt-http-server'
   grunt.loadNpmTasks 'grunt-babel'
   grunt.loadNpmTasks 'grunt-contrib-watch'
-  grunt.loadNpmTasks 'grunt-contrib-sass'
+  grunt.loadNpmTasks 'grunt-contrib-compass'
 
   grunt.registerTask 'default', ['watch']
   grunt.registerTask 'server', ['http-server']
-  grunt.registerTask 'compile', ['sass', 'babel']
+  grunt.registerTask 'compile', ['compass', 'babel']

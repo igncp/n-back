@@ -4,19 +4,26 @@
 <head>
     <title>N-Back</title>
     <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-animate/angular-animate.min.js"></script>
     <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap-theme.min.css">
-    
     <script type="text/javascript" src="compiled/js/Main.js"></script>
     <link rel="stylesheet" type="text/css" href="compiled/css/styles.css">
 </head>
 
 <body ng-app="Main">
-    <div class="col-lg-offset-1 col-lg-10">
-        <h1>N-Back</h1>
-        <div ng-controller="Main">
+    <div ng-controller="MainCtrl">
+        <div class="toggle-wrap" ng-click="toggleMenu()">
+            <span class="toggle-bar"></span>
+        </div>
+        <aside>
+            <a href="#">Configuration</a>
+            <a href="#">About</a>
+        </aside>
+        <div class="col-lg-offset-1 col-lg-10">
+            <h1>N-Back</h1>
             <game-panel></game-panel>
         </div>
     </div>
