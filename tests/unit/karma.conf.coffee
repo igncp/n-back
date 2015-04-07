@@ -15,10 +15,11 @@ singleRun = if process.env.NBACK_UNIT_TESTS_WATCH is 'true' then false else true
 
 config =
   basePath: ''
-  frameworks: ['mocha', 'chai-sinon']
+  frameworks: ['mocha', 'requirejs', 'chai-sinon']
   files: [
     vendors + 'angular/angular.min.js'
     vendors + 'angular-mocks/angular-mocks.js'
+    vendors + 'angular-ui-router/release/angular-ui-router.min.js'
     vendors + 'jquery/dist/jquery.min.js'
     vendors + 'bootstrap/dist/js/bootstrap.min.js'
     fixturesDir + '*.js'
@@ -50,6 +51,7 @@ config =
   singleRun: singleRun
   plugins: [
     'karma-mocha'
+    'karma-requirejs'
     'karma-chai-sinon'
     'karma-coverage'
     'karma-phantomjs-launcher'

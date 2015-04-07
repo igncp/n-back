@@ -7,13 +7,14 @@
     <script type="text/javascript" src="vendors/angular-animate/angular-animate.min.js"></script>
     <script type="text/javascript" src="vendors/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-ui-router/release/angular-ui-router.min.js"></script>
     <link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="vendors/bootstrap/dist/css/bootstrap-theme.min.css">
-    <script type="text/javascript" src="compiled/js/Main.js"></script>
     <link rel="stylesheet" type="text/css" href="compiled/css/styles.css">
+    <script type="text/javascript" src="vendors/requirejs/require.js" data-main="compiled/js/app.js"></script>
 </head>
 
-<body ng-app="Main">
+<body>
     <div ng-controller="MainCtrl">
         <div class="toggle-wrap" ng-click="toggleMenu()">
             <span class="toggle-bar"></span>

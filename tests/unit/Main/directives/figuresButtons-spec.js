@@ -19,14 +19,15 @@
             expect(figuresButtons.buttons).to.equal(null);
           });
         });
-        unit.describe("generate", function() {
-          unit.it("generates buttons", function() {
+        unit.describe("generate()", function() {
+          unit.it("generates expected buttons if grid size is greater than 1", function() {
             figuresButtons.generate();
             expect(figuresButtons.generated).to.equal(true);
-            unit.expectArraysHaveTheSameLength(figuresButtons.buttons, configuration.currentFigures);
+            expect(configuration.grid.size).to.be.above(1);
+            
           });
         });
-        unit.describe("unset", function() {
+        unit.describe("unset()", function() {
           unit.it("destroys buttons", function() {
             figuresButtons.unset();
             expect(figuresButtons.generated).to.equal(false);
