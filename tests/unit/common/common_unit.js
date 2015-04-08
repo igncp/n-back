@@ -143,12 +143,10 @@
 
   unit.defaultTestWrapper = function(parentWrapper, topic) {
     return function(suiteName, suite) {
-      require('Main', function() {
-        parentWrapper(function() {
-          unit.describe(topic, function() {
-            unit.describe(suiteName, function() {
-              suite();
-            });
+      parentWrapper(function() {
+        unit.describe(topic, function() {
+          unit.describe(suiteName, function() {
+            suite();
           });
         });
       });

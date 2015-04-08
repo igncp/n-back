@@ -7,7 +7,7 @@ module.exports = (grunt) ->
         files: [
           'src/js/**/*.js'
         ]
-        tasks: ['babel']
+        tasks: ['compile-js']
       sass:
         options:
           atBegin: true
@@ -26,7 +26,7 @@ module.exports = (grunt) ->
     
     babel:
       options:
-        sourceMap: true
+        sourceMap: false
       dist:
         files: [
           expand: true
@@ -42,13 +42,38 @@ module.exports = (grunt) ->
           cssDir: 'src/compiled/css'
           sassDir: 'src/sass'
 
+    concat:
+      basic:
+        src: [
+          'src/compiled/js/**/*.js'
+          '!src/compiled/js/all.js'
+        ]
+        dest: 'src/compiled/js/all.js'
+      options:
+        separator: '\n//--------------------------------------------------\n'
+
+    clean:
+      js:
+        src: [
+          'src/compiled/js/*'
+          '!src/compiled/js/all.js'
+        ]
+
+    copy:
+      concat:
+        src: 'src/compiled/js/pre-all.js'
+        dest: 'src/compiled/js/all.js'
+
   grunt.initConfig config
 
   grunt.loadNpmTasks 'grunt-http-server'
   grunt.loadNpmTasks 'grunt-babel'
+  grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-compass'
+  grunt.loadNpmTasks 'grunt-contrib-clean'
 
   grunt.registerTask 'default', ['watch']
   grunt.registerTask 'server', ['http-server']
-  grunt.registerTask 'compile', ['compass', 'babel']
+  grunt.registerTask 'compile-js', ['clean', 'babel', 'concat']
+  grunt.registerTask 'compile', ['compass', 'compile-js']

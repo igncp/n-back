@@ -5,8 +5,8 @@ root = path.resolve(__dirname + '/../../') + '/'
 src = root + 'src/'
 reports = root + 'tests/reports/'
 vendors = src + 'vendors/'
-app = src + 'js/'
-appFiles = app + '**/*.js'
+compiled = src + 'compiled/'
+compiledAll = compiled + 'js/all.js'
 testsFiles = './**/*-spec.js'
 directives = src + 'directives/*.html'
 fixturesDir = '../fixtures/'
@@ -15,7 +15,7 @@ singleRun = if process.env.NBACK_UNIT_TESTS_WATCH is 'true' then false else true
 
 config =
   basePath: ''
-  frameworks: ['mocha', 'requirejs', 'chai-sinon']
+  frameworks: ['mocha', 'chai-sinon']
   files: [
     vendors + 'angular/angular.min.js'
     vendors + 'angular-mocks/angular-mocks.js'
@@ -28,7 +28,7 @@ config =
     './*/common_*.js'
     './*/*/common_*.js'
     directives
-    app + './Main.js'
+    compiledAll
     testsFiles
   ]
   preprocessors: {}
@@ -39,11 +39,6 @@ config =
   ngHtml2JsPreprocessor:
     moduleName: 'templates'
     cacheIdFromPath: (filepath)-> filepath.replace src, ''
-  babelPreprocessor:
-    options:
-      sourceMap: 'inline'
-    filename: (file)-> file.originalPath.replace(/\.js$/, '.es5.js')
-    sourceFileName: (file)-> file.originalPath
   port: 9876
   colors: true
   autoWatch: true
@@ -55,11 +50,11 @@ config =
     'karma-chai-sinon'
     'karma-coverage'
     'karma-phantomjs-launcher'
+    'karma-chrome-launcher'
     'karma-ng-html2js-preprocessor'
-    'karma-babel-preprocessor'
   ]
 
-config.preprocessors[appFiles] = ['babel', 'coverage']
+config.preprocessors[compiledAll] = ['coverage']
 config.preprocessors[directives] = ['ng-html2js']
 
 module.exports = (cfg)->
