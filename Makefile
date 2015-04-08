@@ -3,6 +3,7 @@ all: set-executables
 
 set-executables:
 	@chmod -R +x tests/bin
+	@chmod -R +x src/bin
 
 server:
 	@grunt server
