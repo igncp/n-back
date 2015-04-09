@@ -41,6 +41,7 @@ module.exports = (grunt) ->
         options:
           cssDir: 'src/compiled/css'
           sassDir: 'src/sass'
+          outputStyle: 'compact'
 
     concat:
       basic:
@@ -50,7 +51,8 @@ module.exports = (grunt) ->
         ]
         dest: 'src/compiled/js/all.js'
       options:
-        separator: '\n//--------------------------------------------------\n'
+        process: (src, filepath)->
+          "\n\n// #{filepath}\n(function() {#{src}})();\n"
 
     clean:
       js:

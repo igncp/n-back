@@ -1,17 +1,15 @@
-(function() {
-  var Main = window.NBack.Main;
-  
-  Main.controller('MainCtrl', function($scope) {
-    $scope.toggleMenu = function() {
-      var wrapClass = 'toggle-wrap',
-        wrap = document.querySelector('.' + wrapClass);
+var Main = window.NBack.Main;
 
-      if (wrap.className.match('active')) wrap.className = wrapClass;
-      else wrap.className = wrapClass + ' active';
+Main.controller('MainCtrl', function($scope) {
+  $scope.toggleMenu = function() {
+    var wrapClass = 'toggle-wrap',
+      wrap = document.querySelector('.' + wrapClass);
 
-      $('aside').animate({
-        width: 'toggle'
-      }, 300);
-    };
-  });
-})();
+    if (wrap.className.match('active')) wrap.className = wrapClass;
+    else wrap.className = wrapClass + ' active';
+
+    $('aside').animate({
+      width: 'toggle'
+    }, 300);
+  };
+});

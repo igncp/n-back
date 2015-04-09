@@ -22,6 +22,7 @@ config =
     vendors + 'angular-ui-router/release/angular-ui-router.min.js'
     vendors + 'jquery/dist/jquery.min.js'
     vendors + 'bootstrap/dist/js/bootstrap.min.js'
+    vendors + 'lodash/lodash.min.js'
     fixturesDir + '*.js'
     './common/common_*.js'
     './common/*/common_*.js'

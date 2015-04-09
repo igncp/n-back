@@ -24,7 +24,8 @@
             figuresButtons.generate();
             expect(figuresButtons.generated).to.equal(true);
             expect(configuration.grid.size).to.be.above(1);
-            
+            unit.expectArrayToContainObjectsWithKeyValue(figuresButtons.buttons, [['type', 'position'], ['type', 'letters']]);
+            unit.expectArrayToContainObjectsWithKeyValue(figuresButtons.buttons, [['name', 'Position'], ['name', 'Letter']]);
           });
         });
         unit.describe("unset()", function() {

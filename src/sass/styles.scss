@@ -1,35 +1,16 @@
 @import 'compass';
+@import 'vars';
 
-$light-grey: #EEEEEE;
-$dark-grey: #CCCCCC;
-$light-black: #777777;
-$grid-side: 100px;
+a:hover, a:focus {
+  text-decoration: none;
+}
 
 body {
   background-color: $light-grey;
 }
 
-#game-panel {
-  .grid {
-    .grid-cell {
-      background-color: $dark-grey;
-      border: solid 1px $light-black;
-      font-size: 30px;
-      height: $grid-side;
-      text-align: center;
-      width: $grid-side;
-    }
-  }
-  .actions-buttons,
-  .figures-buttons {
-    text-align: center;
-    a {
-      margin: 50px 20px 0;
-    }
-  }
-  table {
-    margin: 0 auto;
-  }
-}
+
+@import 'Main/game_panel';
 
 @import 'menu';
+@import 'top_bar';

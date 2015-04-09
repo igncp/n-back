@@ -68,6 +68,21 @@
     expect(arr1).to.have.length(arr2.length);
   };
 
+  unit.expectArrayToContainObjectWithKeyValue = function(arr, key, value) {
+    var keyValue = {},
+      matches;
+
+    keyValue[key] = value;
+    matches = _.where(arr, keyValue).length;
+    expect(matches).to.be.above(0);
+  };
+
+  unit.expectArrayToContainObjectsWithKeyValue = function(arr, keyValuesArr) {
+    angular.forEach(keyValuesArr, function(keyValue) {
+      unit.expectArrayToContainObjectWithKeyValue(arr, keyValue[0], keyValue[1]);
+    });
+  };
+
   /**
    * Injects all the passed services into a returned object
    * @param  {Array} vars Array of the services strings

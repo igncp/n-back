@@ -1,6 +1,4 @@
-(function() {
-  window.NBack = window.NBack || {};
-  var NBack = window.NBack;
+window.NBack = window.NBack || {};
+var NBack = window.NBack;
 
-  NBack.Main = angular.module("Main", ['Helpers']);
-})();
+NBack.Main = angular.module("Main", ['Helpers']);
