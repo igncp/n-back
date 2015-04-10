@@ -12,4 +12,4 @@ Some of the included verdors are: Karma, Mocha, Angula, jQuery, Selenium (with P
 The plan is to develop unit and acceptance (using Selenium with Python) tests, as expressive, flexible and DRYed as possible.
 
 ## License
-MIT
+MIT - 2015
