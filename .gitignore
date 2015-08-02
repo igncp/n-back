@@ -1,9 +1,8 @@
-ignoreme.txt
-.sass-cache
-node_modules
-tests/reports
-tests/screenshots
-src/vendors
-src/compiled
-*.log
-*.pyc
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
+node_modules/
+platforms/
+plugins/
+www/lib
+dist

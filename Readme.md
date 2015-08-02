@@ -1,15 +1,9 @@
-# n-back [![Build Status](https://travis-ci.org/igncp/n-back.svg)](https://travis-ci.org/igncp/n-back)
+# N-Back
 
-A memory-training application.
+A game app developed using the ionic framework.
 
-## Development
-This application is developed using ES6 JavaScript (with the Babel transpiler), following a TDD workflow.
+## Technologies:
 
-## Tools
-Some of the included verdors are: Karma, Mocha, Angula, jQuery, Selenium (with Python scripting).
-
-## Tests
-The plan is to develop unit and acceptance (using Selenium with Python) tests, as expressive, flexible and DRYed as possible.
-
-## License
-MIT - 2015
+- Ionic Framework (which uses Cordova). Built locally for the Android platform
+- ES6 syntax, powered by the Babel transpiler, built with Browserify and Gulp.
+- AngularJS (and other JS libraries like Lodash)

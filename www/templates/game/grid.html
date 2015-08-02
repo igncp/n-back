@@ -1,0 +1,5 @@
+<div class="game-grid">
+    <div ng-repeat="row in grid.rows track by $index" class="row">
+        <div ng-repeat="col in row.cols track by $index" class="col">{{col}}</div>
+    </div>
+</div>
