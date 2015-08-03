@@ -1,9 +1,7 @@
 class Grid {
-  constructor(clock) {
-    this.clock = clock;
+  constructor() {
   }
   generate(configuration) {
-    this.clock.start();
     this.rows = [];
     _.each(_.range(0, configuration.game.rows), (i) => {
       this.rows[i] = {
@@ -14,14 +12,14 @@ class Grid {
   }
 }
 
-var grid = ['configuration', 'clock', function(configuration, clock) {
+var grid = ['configuration', function(configuration) {
   return {
     restrict: 'E',
     templateUrl: 'templates/game/grid.html',
     scope: {},
     controller: function($scope) {
-      $scope.$on('grid-generate', function() {
-        var grid = new Grid(clock);
+      $scope.$on('grid-generate', ()=> {
+        var grid = new Grid();
         grid.generate(configuration);
         $scope.grid = grid;
       });

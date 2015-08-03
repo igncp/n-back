@@ -1,16 +1,16 @@
 import utils from '../utils';
 
-import configuration from './factories/configuration';
+import games from './factories/games/games';
 
 var registerFactories = utils.loopWithApp([
-  configuration
+  games,
 ], 'factory');
 
 
-import clock from './services/clock';
+import configuration from './services/configuration';
 
 var registerNormalServices = utils.loopWithApp([
-  clock,
+  configuration,
 ], 'service');
 
 export var registerServices = function(app) {

@@ -1,13 +1,15 @@
 class Panel {}
 
-var panel = [function() {
+var panel = ['games', function(games) {
   return {
     restrict: 'E',
     templateUrl: 'templates/game/panel.html',
     scope: {},
-    link: function(scope, element, attribute, controllers) {
-      scope.$on('buttons-start-clicked', function() {
-        scope.$broadcast('grid-generate');
+    controller: function($scope) {
+      $scope.game = games.create();
+      console.log("$scope.game", $scope.game);
+      $scope.$on('buttons-start-clicked', function() {
+        $scope.$broadcast('grid-generate');
       });
     }
   };
