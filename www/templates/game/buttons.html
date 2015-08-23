@@ -1,3 +1,3 @@
 <div class="buttons">
-    <button class="button button-light" ng-click="start()">Start</button>
+    <button ng-repeat="button in buttonsShowed" id="button-{{button}}" class="button button-light {{buttons.statusMap[button]}}" ng-click="buttons.emit(button)">{{buttonsDatas[button].name}}<span ng-if="buttonsDatas[button].boundKey"> ({{buttonsDatas[button].boundKey}})</span></button>
 </div>

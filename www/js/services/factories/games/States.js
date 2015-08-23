@@ -1,20 +1,63 @@
+import utils from '../../../utils';
+
 class State {
-  constructor(dimsArray) {
-    
+  constructor(opts) {
+    this.values = utils.mapToObject((entityName) => {
+      var entity = opts.availableEntities[entityName],
+        value;
+
+      if (entity.getValue) value = entity.getValue();
+      else if (entity.possibleValues) value = utils.getRandomItemOfArray(entity.possibleValues);
+
+      return [entityName, value];
+    })(opts.entities);
+  }
+  entityIsEqualToOtherStates(entityName, otherState) {
+    var currentStateEntityValue = this.values[entityName],
+      otherStateEntityValue = otherState.values[entityName];
+
+    return angular.equals(currentStateEntityValue, otherStateEntityValue);
   }
 }
 
+var _numberOfStates;
+
 export class States {
   constructor(opts) {
+    this.opts = opts;
+  }
+  reset() {
+    this.currentStateIndex = -1;
     this.states = null;
-    if (opts) this.generate(opts);
+    this.generate(this.opts);
   }
   generate(opts) {
-    console.log("opts", opts);
-    var numberOfStates = Math.ceil(opts.gameDuration / opts.timeInterval);
-    this.states = [];
-    _.each(_.range(0, numberOfStates), (stateNumber) => {
-      this.states.push(new State([opts.rows, opts.cols]));
-    });
+    _numberOfStates = Math.ceil(opts.gameDuration / opts.timeInterval);
+    this.states = R.map((stateNumber) => new State(opts))(R.range(0, _numberOfStates));
+  }
+  getCurrentState() {
+    return this.states[this.currentStateIndex];
+  }
+  isInLastState() {
+    if (this.currentStateIndex === (_numberOfStates - 1)) return true;
+    return false;
+  }
+  moveToNextState() {
+    this.currentStateIndex++;
+  }
+  getRemainingStates() {
+    var states = this;
+
+    return _numberOfStates - (states.currentStateIndex + 1);
+  }
+  currentStateEntityIsEqualToPrevious(entityName, previousPositions) {
+    var previousStateIndex = this.currentStateIndex - previousPositions,
+      previousState;
+
+    if (previousStateIndex < 0) return false;
+    else {
+      previousState = this.states[previousStateIndex];
+      return this.getCurrentState().entityIsEqualToOtherStates(entityName, previousState);
+    }
   }
 }

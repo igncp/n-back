@@ -1,0 +1,4 @@
+<div class="result" ng-if="showed">
+    <p>You got <strong>{{data.percentage}}</strong>% right! ({{data.result.true}} of {{data.result.false + data.result.true}})</p>
+    <p ng-repeat="entity in data.dataKeys">{{gameConfiguration.availableEntities[entity].name}}: {{data.data[entity].true || 0}} right / {{data.data[entity].false || 0}} wrong</p>
+</div>

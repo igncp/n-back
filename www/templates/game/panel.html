@@ -1,4 +1,6 @@
 <div class="panel">
+    <div class="info" ng-if="showInfo"><p>Remaining: <span class="remaining">{{remainingStates}}</span></p></div>
     <grid></grid>
-    <buttons></buttons>
+    <result></result>
+    <buttons buttons-showed="buttonsShowed" buttons-datas="buttonsDatas"></buttons>
 </div>

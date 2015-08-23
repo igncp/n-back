@@ -2,17 +2,12 @@ var utils = {};
 
 utils.loopWithApp = function(arr, method) {
   return function(app) {
-    _.each(arr, (arrItem) => app[method].apply({}, arrItem));
+    R.forEach((arrItem) => app[method].apply({}, arrItem))(arr);
   };
-};
-
-utils.emitMsgOnMethodFromScope = function(msg, method, scope) {
-  scope[method] = () => scope.$emit(msg);
 };
 
 utils.generateDefaultApi = function(Clss, injectionDependenciesArgs) {
   injectionDependenciesArgs = injectionDependenciesArgs || [];
-  console.log("injectionDependenciesArgs", injectionDependenciesArgs);
   var api = {
     registry: [],
     create: function() {
@@ -34,6 +29,27 @@ utils.generateDefaultApiFn = function(Clss, injectionDependencies) {
   });
   return result;
 };
+
+utils.each = R.addIndex(R.forEach);
+utils.map = R.addIndex(R.map);
+
+utils.mapToObject = R.pipe(utils.map, R.fromPairs);
+
+utils.exposeObjectsApi = function(obj, apiMethods) {
+  return utils.mapToObject((apiMethod) => {
+    return [apiMethod, R.bind(obj[apiMethod])(obj)];
+  })(apiMethods);
+};
+
+utils.scopeEmitObjectsApi = function(scope, msg, obj, apiMethods) {
+  scope.$emit(msg, utils.exposeObjectsApi(obj, apiMethods));
+};
+
+utils.getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+utils.pipeCurried2 = R.curryN(2, R.pipe);
+
+utils.getRandomItemOfArray = (arr) => arr[utils.getRandomInt(0, arr.length - 1)];
 
 utils.NOOP = function() {};
 
