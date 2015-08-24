@@ -47,7 +47,7 @@ export class Game {
   }
   getRemainingStates() {
     var game = this;
-    
+
     return game.states.getRemainingStates();
   }
   stop() {
@@ -69,13 +69,20 @@ export class Game {
   }
   checkAndUnsetAllEntities() {
     var game = this,
+      entityFailures = [],
       equalToPrevious;
+    
     R.forEach((entityName) => {
       equalToPrevious = game.states.currentStateEntityIsEqualToPrevious(entityName, game.configuration.nBack);
-      if (equalToPrevious) game.score.add(entityName, game.entitiesSet[entityName]);
-      else if (game.entitiesSet[entityName]) game.score.add(entityName, false);
+      if (equalToPrevious) {
+        game.score.add(entityName, game.entitiesSet[entityName]);
+        if (game.entitiesSet[entityName] !== true) entityFailures.push(entityName);
+      } else if (game.entitiesSet[entityName]) entityFailures.push(entityName);
+      
     })(game.configuration.entities)
+    
     game.clearEntitiesSet();
+    return entityFailures;
   }
 }
 

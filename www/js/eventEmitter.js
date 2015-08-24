@@ -27,7 +27,6 @@ export var composeWithEventEmitter = function(constructor) {
   constructor.prototype.listenAndApply = function(name, handler) {
     var instance = this;
     instance.listen(name, function() {
-      var args = arguments;
       instance.scope.$apply(() => handler.apply(instance, arguments));
     });
   };

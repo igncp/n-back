@@ -41,13 +41,18 @@ class Panel {
         panel.buttons.listen(action, () => panel[action]());
       })(['start', 'stop', 'restart']);
 
-      utils.each((entityName) => {
-        panel.buttons.listen(entityName, () => {
-          var result = panel.game.setEntity(entityName);
-          panel.buttons.markWithResult(entityName, result);
+      utils.each((entityKey) => {
+        panel.buttons.listen(entityKey, () => {
+          panel.handleEntityButtonClick(entityKey);
         });
       })(configuration.game.entities);
     });
+  }
+  handleEntityButtonClick(entityKey) {
+    var panel = this,
+      result = panel.game.setEntity(entityKey);
+
+    panel.buttons.markWithResult(entityKey, result);
   }
   setGameListeners() {
     var panel = this;
@@ -56,18 +61,27 @@ class Panel {
     panel.game.listenAndApply('state-change-after', (state) => {
       panel.updateInfoAndGrid(state);
     });
-    panel.game.listenAndApply('state-change-before', (state) => {
-      panel.game.checkAndUnsetAllEntities();
-      panel.buttons.unmarkAll();
+    panel.game.listenAndApply('state-change-before', () => {
+      var failureEntities = panel.game.checkAndUnsetAllEntities();
+
+      R.forEach(entityKey => {
+        panel.buttons.markWithResult(entityKey, false);
+      })(failureEntities);
+      
+      setTimeout(() => {
+        panel.scope.$apply(() => panel.buttons.unmarkAll());
+      }, 500);
     });
   }
   handleKeyPress(keyCode) {
     var panel = this;
 
-    R.forEach((entity) => {
-      var boundKey = panel.scope.buttonsDatas[entity].boundKey;
+    R.forEach((entityKey) => {
+      var boundKey = panel.scope.buttonsDatas[entityKey].boundKey;
       if (keyCode === constants.KEYCODES[boundKey]) {
-        console.log("boundKey", boundKey);
+        panel.scope.$apply(() => {
+          panel.handleEntityButtonClick(entityKey)
+        });
       }
     })(panel.configuration.game.entities);
   }

@@ -1,7 +1,8 @@
 var constants = {
   KEYCODES: {
-    p: 112,
-    l: 108
+    c: 99,
+    l: 108,
+    p: 112
   }
 };
 

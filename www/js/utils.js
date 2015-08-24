@@ -49,7 +49,11 @@ utils.getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min
 
 utils.pipeCurried2 = R.curryN(2, R.pipe);
 
-utils.getRandomItemOfArray = (arr) => arr[utils.getRandomInt(0, arr.length - 1)];
+utils.getRandomItemOfArray = (arr) => {
+  var arrIndex = utils.getRandomInt(0, arr.length);
+  if (arrIndex === arr.length) arrIndex -= 1;
+  return arr[arrIndex];
+};
 
 utils.NOOP = function() {};
 

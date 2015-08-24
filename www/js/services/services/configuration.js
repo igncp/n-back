@@ -6,7 +6,7 @@ class Configuration {
       rows: 3,
       cols: 3,
       nBack: 2,
-      timeInterval: 2000,
+      timeInterval: 2500,
       gameDuration: 60000,
       availableEntities: {
         position: {
@@ -17,10 +17,15 @@ class Configuration {
         letter: {
           name: 'Letter',
           boundKey: 'l',
-          possibleValues: 'a b c'.split(' ')
+          possibleValues: 'a b c d e f'.split(' ')
+        },
+        color: {
+          name: 'Color',
+          boundKey: 'c',
+          possibleValues: '#ccc #CF0303 #197916 #2286A3'.split(' ')
         }
       },
-      entities: ['position', 'letter']
+      entities: ['position', 'letter', 'color']
     };
   }
 }
