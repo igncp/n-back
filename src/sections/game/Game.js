@@ -5,8 +5,10 @@ import {Actions} from "react-native-router-flux"
 
 import {appStore} from "../../stores/app"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
+import {VerticalView} from "../../components/VerticalView"
 
 import {Grid} from "./components/Grid"
+import {GameButton} from "./components/GameButton"
 import {createTargetsRange} from "./services/targets-manager"
 
 @observer
@@ -100,7 +102,7 @@ export class Game extends Component {
         <Text>Game</Text>
         <Text>Score: {appStore.currentGame.score.get()}</Text>
         <Text>Turn: {appStore.currentGame.turn} / {turns}</Text>
-        <View>
+        <View style={{marginBottom: 20}}>
           {currentTarget ? (
             <Grid
               cols={cols}
@@ -109,12 +111,12 @@ export class Game extends Component {
             />
           ) : null}
         </View>
-        <View>
-          <Text
+        <VerticalView>
+          <GameButton
+            isPressed={appStore.currentGame.didCheckDuringTurn}
             onPress={this.handlePositionClick}
-            style={{color: appStore.currentGame.didCheckDuringTurn ? "red" : "black"}}
-          >Position</Text>
-        </View>
+          >Position</GameButton>
+        </VerticalView>
       </StickyFooterLinksBar>
     )
   }
