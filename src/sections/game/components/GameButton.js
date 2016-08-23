@@ -21,17 +21,17 @@ GameButton.propTypes = {
 }
 
 function getInlineStyles() {
-  const verticalPadding = 20
+  const horizontalMargin = 10
 
   return {
     text: {
       alignItems: "center",
-      alignSelf: "stretch",
       backgroundColor: "#eee",
       flex: 1,
+      fontSize: 30,
       justifyContent: "center",
-      paddingBottom: verticalPadding / 2,
-      paddingTop: verticalPadding / 2,
+      marginLeft: horizontalMargin / 2,
+      marginRight: horizontalMargin / 2,
       textAlign: "center",
     },
     pressedText: {

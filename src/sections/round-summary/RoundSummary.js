@@ -2,9 +2,20 @@ import React from "react"
 import {Text} from "react-native"
 
 import {appStore} from "../../stores/app"
+import {availableBackTypes} from "../../services/available-back-types"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 
+function getTypeScoreStr(type) {
+  const {goodMatches, badMatches} = appStore.currentGame
+
+  if (goodMatches[type] === 0 && badMatches[type] === 0) return "-"
+
+  return `${goodMatches[type]} good of ${goodMatches[type] + badMatches[type]}`
+}
+
 export function RoundSummary() {
+  const {backTypes} = appStore.settings.game
+
   return (
     <StickyFooterLinksBar
       links={[{
@@ -20,7 +31,13 @@ export function RoundSummary() {
     >
       <Text>RoundSummary</Text>
       <Text>Your score was: {appStore.currentGame.score.get()}!</Text>
-      <Text>({appStore.currentGame.goodMatches} of {appStore.currentGame.badMatches + appStore.currentGame.goodMatches})</Text>
+      {backTypes.map((typesKey) => {
+        return (
+          <Text
+            key={typesKey}
+          >{availableBackTypes[typesKey].name}: {getTypeScoreStr(typesKey)}</Text>
+        )
+      })}
     </StickyFooterLinksBar>
   )
 }

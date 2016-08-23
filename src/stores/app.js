@@ -1,5 +1,5 @@
 import {observable, action, computed} from "mobx"
-import {merge} from "ramda"
+import {merge, keys, reduce} from "ramda"
 
 export const appStore = {
   @observable currentGame: null,
@@ -15,12 +15,14 @@ appStore.actions = {
 function populateCurrentGame(game) {
   return merge(game, {
     score: computed(() => {
-      if (appStore.currentGame.goodMatches === 0 &&
-        appStore.currentGame.badMatches === 0) return 0
+      const typesKeys = keys(appStore.currentGame.goodMatches)
+      const allGoodMatches = reduce((sum, key) => appStore.currentGame.goodMatches[key] + sum, 0, typesKeys)
+      const allBadMatches = reduce((sum, key) => appStore.currentGame.badMatches[key] + sum, 0, typesKeys)
+
+      if (allGoodMatches === 0 && allBadMatches === 0) return 0
 
       return (
-        appStore.currentGame.goodMatches * 100 /
-        (appStore.currentGame.badMatches + appStore.currentGame.goodMatches)
+        allGoodMatches * 100 / (allGoodMatches + allBadMatches)
       ).toFixed(0)
     }),
   })

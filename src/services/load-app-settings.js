@@ -7,6 +7,7 @@ export function loadAppSettings(store) {
       turns: 20,
       interval: 1000,
       nBack: 2,
+      backTypes: ["LETTER", "POSITION", "COLOR"],
     },
   })
 }

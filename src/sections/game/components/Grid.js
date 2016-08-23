@@ -13,7 +13,9 @@ const createCellInRow = curry((rowIndex, target, colIndex) => {
       key={`col-${colIndex}`}
       style={inlineStyles.cell}
     >
-      <Text style={inlineStyles.cellText}>{isTarget({rowIndex, colIndex}, target) ? "x" : ""}</Text>
+      <Text style={[inlineStyles.cellText, {color: target.color || "black"}]}>
+        {isTarget({rowIndex, colIndex}, target) ? target.letter || "x" : ""}
+      </Text>
     </View>
   )
 })
@@ -60,6 +62,7 @@ function getInlineStyles() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
+      margin: 5,
     },
     cellText: {
       fontSize: 30,
