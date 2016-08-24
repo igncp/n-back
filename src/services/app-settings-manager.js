@@ -5,7 +5,7 @@ import {merge, compose, clone} from "ramda"
 const serialize = compose(JSON.stringify, toJS)
 const deserialize = JSON.parse
 
-export const defaultSettings = {
+const DEFAULT_SETTINGS = {
   game: {
     backTypes: ["LETTER", "POSITION", "COLOR"],
     cols: 3,
@@ -17,12 +17,16 @@ export const defaultSettings = {
   },
 }
 
-export function loadAppSettings(store) {
-  return AsyncStorage.getItem("@NBack:settings").then(settingsStr => {
-    const settings = deserialize(settingsStr)
+export const getDefaultSettings = () => clone(DEFAULT_SETTINGS)
 
-    store.actions.setSettings(merge(defaultSettings, settings || {}))
-  }).catch(() => store.actions.setSettings(clone(defaultSettings)))
+export function loadAppSettings(store) {
+  return AsyncStorage.getItem("@NBack:settings")
+    .then(settingsStr => {
+      const settings = deserialize(settingsStr)
+
+      store.actions.setSettings(merge(getDefaultSettings(), settings || {}))
+    })
+    .catch(() => store.actions.setSettings(getDefaultSettings()))
 }
 
 export function saveAppSettings(store) {

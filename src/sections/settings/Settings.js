@@ -1,9 +1,8 @@
 import React from "react"
 import {Text, View} from "react-native"
-import {clone} from "ramda"
 
 import {appStore} from "../../stores/app"
-import {defaultSettings} from "../../services/app-settings-manager"
+import {getDefaultSettings} from "../../services/app-settings-manager"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 import {Button} from "../../components/Button"
 
@@ -42,7 +41,7 @@ export const Settings = () => {
 
         <View>
           <Button
-            onPress={() => appStore.actions.setSettings(clone(defaultSettings))}
+            onPress={() => appStore.actions.setSettings(getDefaultSettings())}
           >Reset defaults</Button>
         </View>
       </View>

@@ -4,7 +4,7 @@ import {observer} from "mobx-react/native"
 import {path, last} from "ramda"
 
 import {appStore} from "../../../stores/app"
-import {defaultSettings} from "../../../services/app-settings-manager"
+import {getDefaultSettings} from "../../../services/app-settings-manager"
 
 const inlineStyles = getInlineStyles()
 
@@ -18,7 +18,7 @@ export const IntegerSetting = observer(({label, propPath}) => {
       <TextInput
         keyboardType="numeric"
         onChangeText={(newValue) => {
-          const newGameSettings = {[last(propPathArr)]: Number(newValue) || path(propPathArr, defaultSettings)}
+          const newGameSettings = {[last(propPathArr)]: Number(newValue) || path(propPathArr, getDefaultSettings())}
 
           appStore.actions.updateGameSettings(newGameSettings)
         }}
