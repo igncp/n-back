@@ -25,11 +25,14 @@ export function RoundSummary() {
         name: "Dashboard",
         scene: "dashboard",
       }, {
+        name: "Settings",
+        scene: "settings",
+      }, {
         name: "Statistics",
         scene: "statistics",
       }]}
     >
-      <Text>RoundSummary</Text>
+      <Text>Summary of the round:</Text>
       <Text>Your score was: {appStore.currentGame.score.get()}!</Text>
       {backTypes.map((typesKey) => {
         return (

@@ -10,6 +10,7 @@ appStore.actions = {
   @action setCurrentGame: game => appStore.currentGame = populateCurrentGame(game),
   @action updateCurrentGame: game => appStore.currentGame = merge(appStore.currentGame, game),
   @action setSettings: settings => appStore.settings = settings,
+  @action updateGameSettings: gameSettings => appStore.settings.game = merge(appStore.settings.game, gameSettings),
 }
 
 function populateCurrentGame(game) {

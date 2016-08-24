@@ -1,13 +1,17 @@
 import React from "react"
 import {View} from "react-native"
+import {observe} from "mobx"
 
 import {AppRouter} from "./AppRouter"
 import {appStore} from "./stores/app"
-import {loadAppSettings} from "./services/load-app-settings"
+import {loadAppSettings, saveAppSettings} from "./services/app-settings-manager"
 
 const inlineStyles = getInlineStyles()
 
 loadAppSettings(appStore)
+  .then(() => {
+    observe(appStore.settings, () => saveAppSettings(appStore))
+  })
 
 export function App() {
   return (

@@ -8,9 +8,9 @@ import {appStore} from "../../stores/app"
 import {availableBackTypes} from "../../services/available-back-types"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 import {HorizontalView} from "../../components/HorizontalView"
+import {Button} from "../../components/Button"
 
 import {Grid} from "./components/Grid"
-import {GameButton} from "./components/GameButton"
 import {createTargetsRange} from "./services/targets-manager"
 
 const getGenerators = compose(
@@ -109,7 +109,7 @@ export class Game extends Component {
   }
 
   render() {
-    const {cols, rows, turns, backTypes, nBack} = appStore.settings.game
+    const {cols, rows, turns, backTypes, nBack, shouldShowScore} = appStore.settings.game
     const currentTarget = appStore.currentGame.targets[appStore.currentGame.turn - 1]
 
     return (
@@ -119,8 +119,9 @@ export class Game extends Component {
           scene: "dashboard",
         }]}
       >
-        <Text>Game</Text>
-        <Text>Score: {appStore.currentGame.score.get()}</Text>
+        {shouldShowScore && (
+          <Text>Score: {appStore.currentGame.score.get()}</Text>
+        )}
         <Text>{nBack} Back</Text>
         <Text>Turn: {appStore.currentGame.turn} / {turns}</Text>
         <View style={{marginBottom: 20}}>
@@ -135,11 +136,11 @@ export class Game extends Component {
         <HorizontalView>
           {backTypes.map((backType) => {
             return (
-              <GameButton
+              <Button
                 isPressed={appStore.currentGame.checksDuringTurn[backType]}
                 key={backType}
                 onPress={() => this.handleBackTypeClick(backType)}
-              >{availableBackTypes[backType].name}</GameButton>
+              >{availableBackTypes[backType].name}</Button>
             )
           })}
         </HorizontalView>

@@ -1,9 +1,16 @@
 import React from "react"
-import {Text} from "react-native"
+import {Text, View} from "react-native"
+import {clone} from "ramda"
 
+import {appStore} from "../../stores/app"
+import {defaultSettings} from "../../services/app-settings-manager"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
+import {Button} from "../../components/Button"
 
-export function Settings() {
+import {BooleanSetting} from "./components/BooleanSetting"
+import {IntegerSetting} from "./components/IntegerSetting"
+
+export const Settings = () => {
   return (
     <StickyFooterLinksBar
       links={[{
@@ -12,6 +19,33 @@ export function Settings() {
       }]}
     >
       <Text>Settings</Text>
+      <View>
+        <BooleanSetting
+          label="Show the score during the game"
+          propPath="game.shouldShowScore"
+        />
+
+        <IntegerSetting
+          label="Turns per game"
+          propPath="game.turns"
+        />
+
+        <IntegerSetting
+          label="Miliseconds per turn"
+          propPath="game.interval"
+        />
+
+        <IntegerSetting
+          label="N back"
+          propPath="game.nBack"
+        />
+
+        <View>
+          <Button
+            onPress={() => appStore.actions.setSettings(clone(defaultSettings))}
+          >Reset defaults</Button>
+        </View>
+      </View>
     </StickyFooterLinksBar>
   )
 }
