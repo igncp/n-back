@@ -4,7 +4,7 @@ import {observer} from "mobx-react/native"
 import {path, last} from "ramda"
 
 import {appStore} from "../../../stores/app"
-import {getDefaultSettings} from "../../../services/app-settings-manager"
+import {getDefaultSettings} from "../../../services/settings"
 
 const inlineStyles = getInlineStyles()
 

@@ -1,9 +1,12 @@
 import {observable, action, computed} from "mobx"
-import {merge, keys, reduce} from "ramda"
+import {merge, keys, reduce, isArrayLike} from "ramda"
 
 export const appStore = {
   @observable currentGame: null,
   @observable settings: null,
+  @observable rounds: {
+    arr: [],
+  },
 }
 
 appStore.actions = {
@@ -11,6 +14,11 @@ appStore.actions = {
   @action updateCurrentGame: game => appStore.currentGame = merge(appStore.currentGame, game),
   @action setSettings: settings => appStore.settings = settings,
   @action updateGameSettings: gameSettings => appStore.settings.game = merge(appStore.settings.game, gameSettings),
+  @action setRounds: rounds => appStore.rounds.arr = rounds,
+  @action concatRounds: r => {
+    const rounds = isArrayLike(r) ? r : [r]
+    appStore.rounds.arr = appStore.rounds.arr.concat(rounds)
+  },
 }
 
 function populateCurrentGame(game) {

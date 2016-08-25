@@ -6,6 +6,7 @@ import {merge, compose, reduce, pluck, flip, prop, map} from "ramda"
 
 import {appStore} from "../../stores/app"
 import {availableBackTypes} from "../../services/available-back-types"
+import {getCurrentTimestamp} from "../../services/time"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 import {HorizontalView} from "../../components/HorizontalView"
 import {Button} from "../../components/Button"
@@ -30,6 +31,7 @@ export class Game extends Component {
     appStore.actions.setCurrentGame({
       goodMatches: generateMatches(backTypes),
       badMatches: generateMatches(backTypes),
+      createdAt: getCurrentTimestamp(),
       targets: createTargetsRange({
         number: turns,
         args: appStore.settings.game,
@@ -70,11 +72,12 @@ export class Game extends Component {
   }
 
   componentWillUnmount() {
-    this.finishGame()
+    clearInterval(this.intervalId)
   }
 
   finishGame() {
     clearInterval(this.intervalId)
+    appStore.actions.concatRounds(appStore.currentGame)
   }
 
   doesTargetMatchOfType = (backType) => {

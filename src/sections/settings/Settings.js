@@ -2,7 +2,7 @@ import React from "react"
 import {Text, View} from "react-native"
 
 import {appStore} from "../../stores/app"
-import {getDefaultSettings} from "../../services/app-settings-manager"
+import {getDefaultSettings} from "../../services/settings"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 import {Button} from "../../components/Button"
 
