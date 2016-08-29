@@ -1,15 +1,16 @@
 import {observe} from "mobx"
 
-import {appStore} from "../stores/app"
 import {loadAppSettings, saveAppSettings} from "../services/settings"
 import {loadRounds, saveRounds} from "../services/rounds"
 
-const observeSettings = () => observe(appStore.settings, () => saveAppSettings(appStore))
-const observeRounds = () => observe(appStore.rounds, () => saveRounds(appStore))
+const observeSettings = (store) => () => observe(store, "settings", () => saveAppSettings(store))
+const observeRounds = (store) => () => observe(store, "rounds", () => saveRounds(store))
 
-export function bootstrap() {
+export function bootstrap(store) {
+
   return Promise.all([
-    loadAppSettings(appStore).then(observeSettings),
-    loadRounds(appStore).then(observeRounds),
+    loadAppSettings(store).then(observeSettings(store)),
+    loadRounds(store).then(observeRounds(store)),
   ])
+
 }

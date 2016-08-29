@@ -9,7 +9,10 @@ import {Button} from "../../components/Button"
 import {BooleanSetting} from "./components/BooleanSetting"
 import {IntegerSetting} from "./components/IntegerSetting"
 
+const resetDefaultSettings = () => appStore.actions.setSettings(getDefaultSettings())
+
 export const Settings = () => {
+
   return (
     <StickyFooterLinksBar
       links={[{
@@ -41,10 +44,11 @@ export const Settings = () => {
 
         <View>
           <Button
-            onPress={() => appStore.actions.setSettings(getDefaultSettings())}
+            onPress={resetDefaultSettings}
           >Reset defaults</Button>
         </View>
       </View>
     </StickyFooterLinksBar>
   )
+
 }

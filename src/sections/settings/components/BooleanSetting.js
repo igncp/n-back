@@ -6,6 +6,7 @@ import {path, last} from "ramda"
 import {appStore} from "../../../stores/app"
 
 export const BooleanSetting = observer(({label, propPath}) => {
+
   const propPathArr = propPath.split(".")
   const value = path(propPathArr, appStore.settings)
 
@@ -14,12 +15,15 @@ export const BooleanSetting = observer(({label, propPath}) => {
       <Text>{label}</Text>
       <Switch
         onValueChange={() => {
+
           if (propPathArr[0] === "game") appStore.actions.updateGameSettings({[last(propPathArr)]: !value})
+
         }}
         value={value}
       />
     </View>
   )
+
 })
 
 BooleanSetting.propTypes = {

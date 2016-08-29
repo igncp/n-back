@@ -7,23 +7,25 @@ import {merge, compose, reduce, pluck, flip, prop, map} from "ramda"
 import {appStore} from "../../stores/app"
 import {availableBackTypes} from "../../services/available-back-types"
 import {getCurrentTimestamp} from "../../services/time"
+import {extractDataToPersistInRound} from "../../services/rounds"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 import {HorizontalView} from "../../components/HorizontalView"
 import {Button} from "../../components/Button"
 
 import {Grid} from "./components/Grid"
-import {createTargetsRange} from "./services/targets-manager"
+import {createTargetsRange} from "./services/targets"
 
 const getGenerators = compose(
   pluck("generate"),
   map(flip(prop)(availableBackTypes))
 )
 
-const generateMatches = arr => reduce((obj, key) => merge(obj, {[key]: 0}), {}, arr)
+const generateMatches = (arr) => reduce((obj, key) => merge(obj, {[key]: 0}), {}, arr)
 
 @observer
 export class Game extends Component {
   constructor() {
+
     super()
 
     const {turns, backTypes} = appStore.settings.game
@@ -40,47 +42,65 @@ export class Game extends Component {
       turn: 1,
       checksDuringTurn: {},
     })
+
   }
 
   componentWillMount() {
+
     const {turns, interval} = appStore.settings.game
 
     this.intervalId = setInterval(() => {
+
       const {turn, badMatches, checksDuringTurn} = appStore.currentGame
       const {backTypes} = appStore.settings.game
-
       const newBadMatches = reduce((acc, backType) => {
+
         return !checksDuringTurn[backType] && this.doesTargetMatchOfType(backType)
           ? merge(acc, {[backType]: badMatches[backType] + 1})
           : acc
+
       }, badMatches, backTypes)
 
       if (turn === turns) {
+
         appStore.actions.updateCurrentGame({
           badMatches: newBadMatches,
         })
         this.finishGame()
         Actions.roundSummary()
+
       } else {
+
         appStore.actions.updateCurrentGame({
           badMatches: newBadMatches,
           turn: appStore.currentGame.turn + 1,
           checksDuringTurn: {},
         })
+
       }
+
     }, interval)
+
   }
 
   componentWillUnmount() {
+
     clearInterval(this.intervalId)
+
   }
 
   finishGame() {
+
     clearInterval(this.intervalId)
-    appStore.actions.concatRounds(appStore.currentGame)
+
+    appStore.actions.concatRounds(
+      extractDataToPersistInRound({currentGame: appStore.currentGame, gameSettings: appStore.settings.game})
+    )
+
   }
 
   doesTargetMatchOfType = (backType) => {
+
     const {nBack} = appStore.settings.game
 
     const currentTarget = appStore.currentGame.targets[appStore.currentGame.turn - 1]
@@ -89,9 +109,11 @@ export class Game extends Component {
     if (!previousTarget) return false
 
     return availableBackTypes[backType].doTargetsMatch({currentTarget, previousTarget})
+
   }
 
   handleBackTypeClick = (type) => {
+
     const {goodMatches, badMatches} = appStore.currentGame
 
     if (appStore.currentGame.checksDuringTurn[type]) return
@@ -99,19 +121,25 @@ export class Game extends Component {
     const newChecksDuringTurn = merge(appStore.currentGame.checksDuringTurn, {[type]: true})
 
     if (this.doesTargetMatchOfType(type)) {
+
       appStore.actions.updateCurrentGame({
         goodMatches: merge(goodMatches, {[type]: goodMatches[type] + 1}),
         checksDuringTurn: newChecksDuringTurn,
       })
+
     } else {
+
       appStore.actions.updateCurrentGame({
         badMatches: merge(badMatches, {[type]: badMatches[type] + 1}),
         checksDuringTurn: newChecksDuringTurn,
       })
+
     }
+
   }
 
   render() {
+
     const {cols, rows, turns, backTypes, nBack, shouldShowScore} = appStore.settings.game
     const currentTarget = appStore.currentGame.targets[appStore.currentGame.turn - 1]
 
@@ -138,6 +166,7 @@ export class Game extends Component {
         </View>
         <HorizontalView>
           {backTypes.map((backType) => {
+
             return (
               <Button
                 isPressed={appStore.currentGame.checksDuringTurn[backType]}
@@ -145,9 +174,11 @@ export class Game extends Component {
                 onPress={() => this.handleBackTypeClick(backType)}
               >{availableBackTypes[backType].name}</Button>
             )
+
           })}
         </HorizontalView>
       </StickyFooterLinksBar>
     )
+
   }
 }

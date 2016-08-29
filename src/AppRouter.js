@@ -2,7 +2,6 @@ import React from "react"
 import {Scene, Router, ActionConst} from "react-native-router-flux"
 
 import {addLayout} from "./components/Layout"
-
 import {Dashboard} from "./sections/dashboard/Dashboard"
 import {Game} from "./sections/game/Game"
 import {Settings} from "./sections/settings/Settings"
@@ -12,6 +11,7 @@ import {RoundSummary} from "./sections/round-summary/RoundSummary"
 const {REPLACE} = ActionConst
 
 export function AppRouter() {
+
   return (
     <Router>
       <Scene
@@ -47,4 +47,5 @@ export function AppRouter() {
       </Scene>
     </Router>
   )
+
 }

@@ -4,7 +4,10 @@ import Btn from "react-native-button"
 
 const inlineStyles = getInlineStyles()
 
-export function Button({children, isPressed, onPress}) {
+export function Button({
+  children, isPressed, onPress,
+}) {
+
   return (
     <View style={inlineStyles.component}>
       <Btn
@@ -15,6 +18,7 @@ export function Button({children, isPressed, onPress}) {
       </Btn>
     </View>
   )
+
 }
 
 Button.propTypes = {
@@ -28,6 +32,7 @@ Button.defaultPropTypes = {
 }
 
 function getInlineStyles() {
+
   const horizontalMargin = 10
   const verticalPadding = 10
 
@@ -55,4 +60,5 @@ function getInlineStyles() {
       color: "black",
     },
   }
+
 }

@@ -6,6 +6,7 @@ import {FooterLink} from "./FooterLink"
 const inlineStyles = getInlineStyles()
 
 export function StickyFooterLinksBar({children, links}) {
+
   return (
     <StickyFooter
       footerChildren={links.map(({name, scene}, index) => (
@@ -20,6 +21,7 @@ export function StickyFooterLinksBar({children, links}) {
       {children}
     </StickyFooter>
   )
+
 }
 
 StickyFooterLinksBar.propTypes = {
@@ -31,11 +33,13 @@ StickyFooterLinksBar.propTypes = {
 }
 
 function getInlineStyles() {
+
   return {
     footer: {
-      flexDirection:"row",
-      height:40,
-      alignItems:"center",
+      flexDirection: "row",
+      height: 40,
+      alignItems: "center",
     },
   }
+
 }

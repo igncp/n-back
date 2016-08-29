@@ -18,10 +18,14 @@ const DEFAULT_SETTINGS = {
 export const getDefaultSettings = () => clone(DEFAULT_SETTINGS)
 
 export function loadAppSettings(store) {
+
   return load(STORAGE_KEY)
-    .then(settings => {
+    .then((settings) => {
+
       store.actions.setSettings(merge(getDefaultSettings(), settings || {}))
+
     })
+
 }
 
 export const saveAppSettings = (store) => save(STORAGE_KEY, store.settings)

@@ -12,6 +12,6 @@ const deserialize = JSON.parse
 
 export const save = (key, obj) => AsyncStorage.setItem(`${KEY_PREFIX}${key}`, serialize(obj))
 
-export const load = key => AsyncStorage.getItem(`${KEY_PREFIX}${key}`)
+export const load = (key) => AsyncStorage.getItem(`${KEY_PREFIX}${key}`)
   .then(deserialize)
   .catch(always(null))

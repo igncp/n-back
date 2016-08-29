@@ -5,12 +5,14 @@ import {Actions} from "react-native-router-flux"
 const inlineStyles = getInlineStyles()
 
 export function FooterLink({name, scene}) {
+
   return (
     <Text
       onPress={() => Actions[scene]()}
       style={inlineStyles.link}
     >{name}</Text>
   )
+
 }
 
 FooterLink.propTypes = {
@@ -19,10 +21,12 @@ FooterLink.propTypes = {
 }
 
 function getInlineStyles() {
+
   return {
     link: {
       flex: 1,
       textAlign: "center",
     },
   }
+
 }

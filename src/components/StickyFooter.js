@@ -1,10 +1,11 @@
 import React, {PropTypes} from "react"
-import {View, ScrollView} from "react-native"
+import {ScrollView, View} from "react-native"
 import {merge} from "ramda"
 
 const inlineStyles = getInlineStyles()
 
 export function StickyFooter({children, footerChildren, footerExtraStyles}) {
+
   return (
     <View style={inlineStyles.component}>
       <ScrollView>
@@ -15,6 +16,7 @@ export function StickyFooter({children, footerChildren, footerExtraStyles}) {
       </View>
     </View>
   )
+
 }
 
 StickyFooter.propTypes = {
@@ -24,6 +26,7 @@ StickyFooter.propTypes = {
 }
 
 function getInlineStyles() {
+
   return {
     component: {
       flex: 1,
@@ -31,10 +34,11 @@ function getInlineStyles() {
     },
     footer: {
       position: "absolute",
-      flex:0.1,
+      flex: 0.1,
       left: 0,
       right: 0,
       bottom: 0,
     },
   }
+
 }

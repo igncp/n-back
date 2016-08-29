@@ -8,6 +8,7 @@ const isTarget = ({rowIndex, colIndex}, target) =>
   (rowIndex === target.row - 1) && (colIndex === target.col - 1)
 
 const createCellInRow = curry((rowIndex, target, colIndex) => {
+
   return (
     <View
       key={`col-${colIndex}`}
@@ -18,9 +19,11 @@ const createCellInRow = curry((rowIndex, target, colIndex) => {
       </Text>
     </View>
   )
+
 })
 
 const createRow = curry((colsArr, target, rowIndex) => {
+
   return (
     <View
       key={`row-${rowIndex}`}
@@ -32,9 +35,11 @@ const createRow = curry((colsArr, target, rowIndex) => {
       {colsArr.map(createCellInRow(rowIndex, target))}
     </View>
   )
+
 })
 
 export function Grid({cols, rows, target}) {
+
   const colsArr = range(0, cols)
   const rowsArr = range(0, rows)
 
@@ -43,6 +48,7 @@ export function Grid({cols, rows, target}) {
       {rowsArr.map(createRow(colsArr, target))}
     </View>
   )
+
 }
 
 Grid.propTypes = {
@@ -55,6 +61,7 @@ Grid.propTypes = {
 }
 
 function getInlineStyles() {
+
   return {
     cell: {
       borderColor: "black",
@@ -68,4 +75,5 @@ function getInlineStyles() {
       fontSize: 30,
     },
   }
+
 }

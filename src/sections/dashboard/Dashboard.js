@@ -4,6 +4,7 @@ import {Text} from "react-native"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 
 export function Dashboard() {
+
   return (
     <StickyFooterLinksBar
       links={[{
@@ -20,4 +21,5 @@ export function Dashboard() {
       <Text>Dashboard</Text>
     </StickyFooterLinksBar>
   )
+
 }

@@ -4,6 +4,7 @@ import {View} from "react-native"
 const inlineStyles = getInlineStyles()
 
 export function HorizontalView({children, style}) {
+
   return (
     <View
       style={[inlineStyles.component, style]}
@@ -11,6 +12,7 @@ export function HorizontalView({children, style}) {
       {children}
     </View>
   )
+
 }
 
 HorizontalView.propTypes = {
@@ -19,11 +21,13 @@ HorizontalView.propTypes = {
 }
 
 function getInlineStyles() {
+
   return {
     component: {
-      alignItems:"center",
+      alignItems: "center",
       flex: 1,
-      flexDirection:"row",
+      flexDirection: "row",
     },
   }
+
 }
