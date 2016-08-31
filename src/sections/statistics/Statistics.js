@@ -7,6 +7,8 @@ import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 import {appStore} from "../../stores/app"
 import {getDateFromTimestamp} from "../../services/time"
 import {Button} from "../../components/Button"
+import {PaddedView} from "../../components/PaddedView"
+import {SectionTitle} from "../../components/SectionTitle"
 
 const sumKeys = (obj) => compose(reduce((acc, key) => acc + obj[key], 0), keys)(obj)
 const groupRoundsByNBack = groupBy((round) => round.settings.nBack)
@@ -26,7 +28,7 @@ const displayConfirmation = () => {
 
 export const Statistics = observer(() => {
 
-  const rounds = appStore.rounds.arr.slice().reverse()
+  const rounds = appStore.rounds.slice().reverse()
   const nBackGroups = groupRoundsByNBack(rounds)
 
   return (
@@ -36,36 +38,40 @@ export const Statistics = observer(() => {
         scene: "dashboard",
       }]}
     >
-      <Text>Statistics</Text>
-      <Text>Rounds: {rounds.length}</Text>
-      <View>{rounds.map((round, index) => {
+      <PaddedView>
+        <SectionTitle>Statistics</SectionTitle>
+        <Text>Rounds: {rounds.length}</Text>
+        <View>{rounds.map((round, index) => {
 
-        const goodMatches = sumKeys(round.goodMatches)
+          const goodMatches = sumKeys(round.goodMatches)
 
-        return (
-          <View key={index}>
-            <Text>{getDateFromTimestamp(round.createdAt)} - Score: {(goodMatches * 100 /
-              (goodMatches + sumKeys(round.badMatches))).toFixed(0)}%</Text>
-          </View>
-        )
+          return (
+            <View key={index}>
+              <Text>{getDateFromTimestamp(round.createdAt)} - Score: {(goodMatches * 100 /
+                (goodMatches + sumKeys(round.badMatches))).toFixed(0)}%</Text>
+            </View>
+          )
 
-      })}</View>
-      {rounds.length > 0 && (
-        <View>
-          <Text>NBack rounds:</Text>
-          <View>{keys(nBackGroups).map((nBackGroupKey, index) => {
-
-            return (
-              <Text key={index}>{`${nBackGroupKey} back: ${nBackGroups[nBackGroupKey]
-                .length} rounds / ${rounds.length} total rounds`}</Text>
-            )
-
-          })}</View>
+        })}</View>
+        {rounds.length > 0 && (
           <View>
-            <Button onPress={displayConfirmation}>Clear Rounds</Button>
+            <PaddedView horizontal={false}>
+              <Text>NBack rounds:</Text>
+              <View>{keys(nBackGroups).map((nBackGroupKey, index) => {
+
+                return (
+                  <Text key={index}>{`${nBackGroupKey} back: ${nBackGroups[nBackGroupKey]
+                    .length} rounds / ${rounds.length} total rounds`}</Text>
+                )
+
+              })}</View>
+            </PaddedView>
+            <View>
+              <Button onPress={displayConfirmation}>Clear Rounds</Button>
+            </View>
           </View>
-        </View>
-      )}
+        )}
+      </PaddedView>
     </StickyFooterLinksBar>
   )
 

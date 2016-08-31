@@ -25,7 +25,7 @@ export function loadRounds(store) {
 
 }
 
-export const saveRounds = (store) => save(STORAGE_KEY, store.rounds.arr)
+export const saveRounds = (store) => save(STORAGE_KEY, store.rounds)
 
 export const extractDataToPersistInRound = ({currentGame, gameSettings}) => {
 

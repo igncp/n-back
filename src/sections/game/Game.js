@@ -11,6 +11,7 @@ import {extractDataToPersistInRound} from "../../services/rounds"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 import {HorizontalView} from "../../components/HorizontalView"
 import {Button} from "../../components/Button"
+import {PaddedView} from "../../components/PaddedView"
 
 import {Grid} from "./components/Grid"
 import {createTargetsRange} from "./services/targets"
@@ -19,6 +20,11 @@ const getGenerators = compose(
   pluck("generate"),
   map(flip(prop)(availableBackTypes))
 )
+
+const pressedButtonColors = {
+  correct: "green",
+  incorrect: "red",
+}
 
 const generateMatches = (arr) => reduce((obj, key) => merge(obj, {[key]: 0}), {}, arr)
 
@@ -94,7 +100,10 @@ export class Game extends Component {
     clearInterval(this.intervalId)
 
     appStore.actions.concatRounds(
-      extractDataToPersistInRound({currentGame: appStore.currentGame, gameSettings: appStore.settings.game})
+      extractDataToPersistInRound({
+        currentGame: appStore.currentGame,
+        gameSettings: appStore.settings.game,
+      })
     )
 
   }
@@ -118,20 +127,24 @@ export class Game extends Component {
 
     if (appStore.currentGame.checksDuringTurn[type]) return
 
-    const newChecksDuringTurn = merge(appStore.currentGame.checksDuringTurn, {[type]: true})
+    const doesTargetMatchOfType = this.doesTargetMatchOfType(type)
+    const checksDuringTurn = merge(
+      appStore.currentGame.checksDuringTurn,
+      {[type]: doesTargetMatchOfType ? "correct" : "incorrect"}
+    )
 
-    if (this.doesTargetMatchOfType(type)) {
+    if (doesTargetMatchOfType) {
 
       appStore.actions.updateCurrentGame({
         goodMatches: merge(goodMatches, {[type]: goodMatches[type] + 1}),
-        checksDuringTurn: newChecksDuringTurn,
+        checksDuringTurn,
       })
 
     } else {
 
       appStore.actions.updateCurrentGame({
         badMatches: merge(badMatches, {[type]: badMatches[type] + 1}),
-        checksDuringTurn: newChecksDuringTurn,
+        checksDuringTurn,
       })
 
     }
@@ -150,33 +163,38 @@ export class Game extends Component {
           scene: "dashboard",
         }]}
       >
-        {shouldShowScore && (
-          <Text>Score: {appStore.currentGame.score.get()}</Text>
-        )}
-        <Text>{nBack} Back</Text>
-        <Text>Turn: {appStore.currentGame.turn} / {turns}</Text>
-        <View style={{marginBottom: 20}}>
-          {currentTarget ? (
-            <Grid
-              cols={cols}
-              rows={rows}
-              target={currentTarget}
-            />
-          ) : null}
-        </View>
-        <HorizontalView>
-          {backTypes.map((backType) => {
+        <PaddedView>
+          {shouldShowScore && (
+            <Text>Score: {appStore.currentGame.score.get()}</Text>
+          )}
+          <Text>{nBack} Back</Text>
+          <Text>Turn: {appStore.currentGame.turn} / {turns}</Text>
+          <View style={{marginBottom: 20}}>
+            {currentTarget ? (
+              <Grid
+                cols={cols}
+                rows={rows}
+                target={currentTarget}
+              />
+            ) : null}
+          </View>
+          <HorizontalView>
+            {backTypes.map((backType) => {
 
-            return (
-              <Button
-                isPressed={appStore.currentGame.checksDuringTurn[backType]}
-                key={backType}
-                onPress={() => this.handleBackTypeClick(backType)}
-              >{availableBackTypes[backType].name}</Button>
-            )
+              const checkDuringTurnOfType = appStore.currentGame.checksDuringTurn[backType]
 
-          })}
-        </HorizontalView>
+              return (
+                <Button
+                  isPressed={!!checkDuringTurnOfType}
+                  isPressedColor={checkDuringTurnOfType && pressedButtonColors[checkDuringTurnOfType]}
+                  key={backType}
+                  onPress={() => this.handleBackTypeClick(backType)}
+                >{availableBackTypes[backType].name}</Button>
+              )
+
+            })}
+          </HorizontalView>
+        </PaddedView>
       </StickyFooterLinksBar>
     )
 

@@ -1,18 +1,22 @@
 import React, {PropTypes} from "react"
 import {View} from "react-native"
 import Btn from "react-native-button"
+import {merge} from "ramda"
 
 const inlineStyles = getInlineStyles()
 
 export function Button({
-  children, isPressed, onPress,
+  children, isPressed, isPressedColor, onPress,
 }) {
 
   return (
     <View style={inlineStyles.component}>
       <Btn
         onPress={onPress}
-        style={[inlineStyles.text, isPressed ? inlineStyles.pressedText : inlineStyles.unpressedText]}
+        style={[inlineStyles.text, isPressed
+          ? merge(inlineStyles.pressedText, {color: isPressedColor})
+          : inlineStyles.unpressedText]
+        }
       >
         {children}
       </Btn>
@@ -24,11 +28,13 @@ export function Button({
 Button.propTypes = {
   children: PropTypes.string,
   isPressed: PropTypes.bool,
+  isPressedColor: PropTypes.string,
   onPress: PropTypes.func,
 }
 
-Button.defaultPropTypes = {
+Button.defaultProps = {
   isPressed: false,
+  isPressedColor: "blue",
 }
 
 function getInlineStyles() {
@@ -52,9 +58,6 @@ function getInlineStyles() {
       borderWidth: 2,
       fontSize: 20,
       textAlign: "center",
-    },
-    pressedText: {
-      color: "blue",
     },
     unpressedText: {
       color: "black",

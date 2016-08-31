@@ -4,22 +4,23 @@ import {merge, keys, reduce, isArrayLike} from "ramda"
 export const appStore = {
   @observable currentGame: null,
   @observable settings: null,
-  @observable rounds: {
-    arr: [],
-  },
+  @observable rounds: [],
 }
 
 appStore.actions = {
   @action setCurrentGame: (game) => appStore.currentGame = populateCurrentGame(game),
   @action updateCurrentGame: (game) => appStore.currentGame = merge(appStore.currentGame, game),
   @action setSettings: (settings) => appStore.settings = settings,
-  @action updateGameSettings: (gameSettings) => appStore.settings.game = merge(appStore.settings.game, gameSettings),
-  @action setRounds: (rounds) => appStore.rounds.arr = rounds,
+  @action updateGameSettings: (gameSettings) => appStore.settings = merge(
+    appStore.settings,
+    {game: merge(appStore.settings.game, gameSettings)}
+  ),
+  @action setRounds: (rounds) => appStore.rounds = rounds,
   @action concatRounds: (r) => {
 
     const rounds = isArrayLike(r) ? r : [r]
 
-    appStore.rounds.arr = appStore.rounds.arr.concat(rounds)
+    appStore.rounds = appStore.rounds.concat(rounds)
 
   },
 }

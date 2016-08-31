@@ -4,6 +4,8 @@ import {Text} from "react-native"
 import {appStore} from "../../stores/app"
 import {availableBackTypes} from "../../services/available-back-types"
 import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
+import {PaddedView} from "../../components/PaddedView"
+import {SectionTitle} from "../../components/SectionTitle"
 
 function getTypeScoreStr(type) {
 
@@ -35,17 +37,21 @@ export function RoundSummary() {
         scene: "statistics",
       }]}
     >
-      <Text>Summary of the round:</Text>
-      <Text>Your score was: {appStore.currentGame.score.get()}!</Text>
-      {backTypes.map((typesKey) => {
+      <PaddedView>
+        <SectionTitle>Summary of the round</SectionTitle>
+        <PaddedView horizontal={false}>
+          <Text>Your score was: {appStore.currentGame.score.get()}!</Text>
+        </PaddedView>
+        {backTypes.map((typesKey) => {
 
-        return (
-          <Text
-            key={typesKey}
-          >{availableBackTypes[typesKey].name}: {getTypeScoreStr(typesKey)}</Text>
-        )
+          return (
+            <Text
+              key={typesKey}
+            >{availableBackTypes[typesKey].name}: {getTypeScoreStr(typesKey)}</Text>
+          )
 
-      })}
+        })}
+      </PaddedView>
     </StickyFooterLinksBar>
   )
 
