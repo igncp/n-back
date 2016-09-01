@@ -12,6 +12,7 @@ import {StickyFooterLinksBar} from "../../components/StickyFooterLinksBar"
 import {HorizontalView} from "../../components/HorizontalView"
 import {Button} from "../../components/Button"
 import {PaddedView} from "../../components/PaddedView"
+import {SectionTitle} from "../../components/SectionTitle"
 
 import {Grid} from "./components/Grid"
 import {createTargetsRange} from "./services/targets"
@@ -164,10 +165,10 @@ export class Game extends Component {
         }]}
       >
         <PaddedView>
+          <SectionTitle>{nBack} Back</SectionTitle>
           {shouldShowScore && (
             <Text>Score: {appStore.currentGame.score.get()}</Text>
           )}
-          <Text>{nBack} Back</Text>
           <Text>Turn: {appStore.currentGame.turn} / {turns}</Text>
           <View style={{marginBottom: 20}}>
             {currentTarget ? (

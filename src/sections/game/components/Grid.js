@@ -1,11 +1,15 @@
 import React, {PropTypes} from "react"
 import {Text, View} from "react-native"
-import {range, curry} from "ramda"
+import {range, curry, is} from "ramda"
 
 const inlineStyles = getInlineStyles()
 
+const isNumber = is(Number)
+
 const isTarget = ({rowIndex, colIndex}, target) =>
-  (rowIndex === target.row - 1) && (colIndex === target.col - 1)
+  (isNumber(target.row) && isNumber(target.col))
+  ? (rowIndex === target.row - 1) && (colIndex === target.col - 1)
+  : true
 
 const createCellInRow = curry((rowIndex, target, colIndex) => {
 

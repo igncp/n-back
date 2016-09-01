@@ -40,7 +40,7 @@ export function RoundSummary() {
       <PaddedView>
         <SectionTitle>Summary of the round</SectionTitle>
         <PaddedView horizontal={false}>
-          <Text>Your score was: {appStore.currentGame.score.get()}!</Text>
+          <Text>Your score was: {appStore.currentGame.score.get()}</Text>
         </PaddedView>
         {backTypes.map((typesKey) => {
 
