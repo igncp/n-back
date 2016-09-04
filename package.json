@@ -1,19 +1,21 @@
 {
-  "name": "NBack",
+  "name": "nback",
   "version": "0.0.1",
+  "description": "Memory training application built with react native",
+  "homepage": "https://github.com/igncp/n-back",
   "private": true,
   "scripts": {
-    "start": "./node_modules/react-native/packager/packager.sh start --reset-cache",
-    "start-ios": "./node_modules/.bin/react-native run-ios && npm start",
+    "android-build": "cd android && ./gradlew assembleRelease",
+    "android-devices": "$ANDROID_HOME/platform-tools/adb devices",
+    "android-install": "cd android && ./gradlew assembleRelease && ./gradlew installRelease",
+    "android-logcat": "$ANDROID_HOME/platform-tools/adb logcat *:S ReactNative:V ReactNativeJS:V",
+    "android-shake": "$ANDROID_HOME/platform-tools/adb devices | grep '\\t' | awk '{print $1}' | sed 's/\\s//g' | xargs -I {} $ANDROID_HOME/platform-tools/adb -s {} shell input keyevent 82",
     "lint": "eslint src",
     "lint-fix": "eslint --fix src && npm run lint",
-    "test": "mocha src/**/__tests__/*.js",
-    "test-watch": "mocha src/**/__tests__/*.js -w",
-    "android:build": "cd android && ./gradlew assembleRelease",
-    "android:install": "cd android && ./gradlew assembleRelease && ./gradlew installRelease",
-    "android:devices": "$ANDROID_HOME/platform-tools/adb devices",
-    "android:logcat": "$ANDROID_HOME/platform-tools/adb logcat *:S ReactNative:V ReactNativeJS:V",
-    "android:shake": "$ANDROID_HOME/platform-tools/adb devices | grep '\\t' | awk '{print $1}' | sed 's/\\s//g' | xargs -I {} $ANDROID_HOME/platform-tools/adb -s {} shell input keyevent 82"
+    "start": "./node_modules/react-native/packager/packager.sh start --reset-cache",
+    "start-ios": "./node_modules/.bin/react-native run-ios && npm start",
+    "test": "mocha $npm_package_config_mocha",
+    "test-watch": "mocha $npm_package_config_mocha -w"
   },
   "devDependencies": {
     "apisauce": "^0.3.0",
@@ -55,6 +57,7 @@
     "snazzy": "^4.0.0"
   },
   "config": {
+    "mocha": "src/**/__tests__/*.js",
     "ghooks": {
       "pre-commit": "npm test && npm run lint"
     }
